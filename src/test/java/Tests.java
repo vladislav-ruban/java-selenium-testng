@@ -185,4 +185,26 @@ public class Tests extends TestBase {
         Assert.assertTrue(emailNotConfirmedMessage.getText().contains("Указанный e-mail не подтвержден."));
     }
 
+    @Test
+    public void registrationEmptyFieldsTest() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement header = driver.findElement(By.xpath("//header[@id='site-header']"));
+        WebElement loginButton = driver.findElement(By.xpath("//a[@form-name='login']"));
+        WebElement closeAdBtn = driver.findElement(By.xpath("//button[@class='close announcement-acb']"));
+        wait.until(ExpectedConditions.elementToBeClickable(closeAdBtn));
+        closeAdBtn.click();
+        wait.until(ExpectedConditions.visibilityOf(header));
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton));
+        loginButton.click();
+        WebElement loginForm = driver.findElement(By.xpath("//div[@class='form-content type-login']"));
+        wait.until(ExpectedConditions.visibilityOf(loginForm));
+        WebElement loginFormRegisterTab = driver.findElement(By.xpath("//div[@id='go-tab-userregister']"));
+        loginFormRegisterTab.click();
+        WebElement registerButton = driver.findElement(By.xpath("//a[@data-type='userregister']"));
+        registerButton.click();
+        WebElement errorMessageNeedToFillEmail = driver.findElement(By.xpath("//div[@class='error-text'][contains(text(),'Необходимо заполнить поле «Адрес электронной почты».')]"));
+        WebElement errorMessageNeedToFillPassword = driver.findElement(By.xpath("//div[@class='error-text'][contains(text(),'Необходимо заполнить поле «Пароль».')]"));
+        wait.until(ExpectedConditions.visibilityOf(errorMessageNeedToFillEmail));
+        wait.until(ExpectedConditions.visibilityOf(errorMessageNeedToFillPassword));
+    }
 }
