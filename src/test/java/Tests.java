@@ -1,4 +1,6 @@
+import Base.TestBase;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -92,7 +94,8 @@ public class Tests extends TestBase {
         categorySelectionTest();
         WebElement appleProducerFilterCheckbox = driver.findElement(By.xpath("//a[@data-filter-type='producer'][@data-producer-alias='apple']"));
         String appleProducer = appleProducerFilterCheckbox.getText();
-        appleProducerFilterCheckbox.click();
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("arguments[0].click();", appleProducerFilterCheckbox);
         List<WebElement> modelNameTitles = driver.findElements(By.xpath("//a[@class='model-name ga_card_mdl_title']"));
         wait.until(ExpectedConditions.visibilityOfAllElements(modelNameTitles));
         for(WebElement modelTitle : modelNameTitles) {
