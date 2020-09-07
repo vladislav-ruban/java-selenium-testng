@@ -14,6 +14,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class Tests extends TestBase {
     private final String searchQuery = "dell precision";
+    private final String loginEmail = "testaccount@testmail.com";
+    private final String loginPassword = "12345678";
 
     @Test
     public void searchTest() {
@@ -94,7 +96,6 @@ public class Tests extends TestBase {
         List<WebElement> modelNameTitles = driver.findElements(By.xpath("//a[@class='model-name ga_card_mdl_title']"));
         wait.until(ExpectedConditions.visibilityOfAllElements(modelNameTitles));
         for(WebElement modelTitle : modelNameTitles) {
-            //Assert.assertEquals(modelTitle.getText(), appleProducer);
             assertThat(modelTitle.getText().toLowerCase(), containsString(appleProducer.toLowerCase()));
         }
     }
@@ -157,4 +158,31 @@ public class Tests extends TestBase {
         System.out.println(wishlistPrice);
         Assert.assertTrue(wishlistPrice > 0);
     }
+
+    @Test
+    public void loginEmailNotConfirmedTest() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement header = driver.findElement(By.xpath("//header[@id='site-header']"));
+        WebElement loginButton = driver.findElement(By.xpath("//a[@form-name='login']"));
+        WebElement closeAdBtn = driver.findElement(By.xpath("//button[@class='close announcement-acb']"));
+        wait.until(ExpectedConditions.elementToBeClickable(closeAdBtn));
+        closeAdBtn.click();
+        wait.until(ExpectedConditions.visibilityOf(header));
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton));
+        loginButton.click();
+        WebElement loginForm = driver.findElement(By.xpath("//div[@class='form-content type-login']"));
+        wait.until(ExpectedConditions.visibilityOf(loginForm));
+        WebElement loginEmailInput = driver.findElement(By.xpath("//input[@name='LoginForm[username]']"));
+        WebElement loginPasswordInput = driver.findElement(By.xpath("//input[@name='LoginForm[password]']"));
+        loginEmailInput.click();
+        loginEmailInput.sendKeys(loginEmail);
+        loginPasswordInput.click();
+        loginPasswordInput.sendKeys(loginPassword);
+        loginPasswordInput.submit();
+        wait.until(ExpectedConditions.invisibilityOf(loginForm));
+        WebElement emailNotConfirmedMessage = driver.findElement(By.xpath("//div[@id='tab-not-confirmed']//p"));
+        System.out.println(emailNotConfirmedMessage.getText());
+        Assert.assertTrue(emailNotConfirmedMessage.getText().contains("Указанный e-mail не подтвержден."));
+    }
+
 }
