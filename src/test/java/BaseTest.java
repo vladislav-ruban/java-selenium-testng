@@ -8,8 +8,8 @@ import org.testng.annotations.BeforeTest;
 
 import java.util.concurrent.TimeUnit;
 
-public class TestBase {
-    public WebDriver driver;
+public class BaseTest {
+    private WebDriver driver;
 
     @BeforeTest
     public void setUp() {
@@ -29,5 +29,9 @@ public class TestBase {
     @BeforeMethod
     public void openPage() {
         driver.get("https://price.ua/");
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 }
