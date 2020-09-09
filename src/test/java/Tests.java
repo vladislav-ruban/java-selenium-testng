@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.everyItem;
@@ -51,16 +52,15 @@ public class Tests extends BaseTest {
 
         wait.until(ExpectedConditions.visibilityOf(header));
         List<WebElement> searchResultPrices = driver.findElements(By.xpath("//div[@class='price-wrap']//span[@class='price']"));
-        ArrayList<Integer> integerPrices = new ArrayList();
+        ArrayList<Integer> integerPrices = new ArrayList<>();
+        ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         for (WebElement prices : searchResultPrices){
             int value = Integer.parseInt(prices.getText().replaceAll("[^0-9]", ""));
             integerPrices.add(value);
+            integerPricesSorted.add(value);
         }
-
-        for (int i = 0; i < integerPrices.size(); i++) {
-            if (i == integerPrices.size() - 1) break;
-            Assert.assertTrue(integerPrices.get(i) < integerPrices.get(i + 1));
-        }
+        Collections.sort(integerPricesSorted);
+        Assert.assertEquals(integerPrices, integerPricesSorted);
     }
 
 
@@ -76,15 +76,15 @@ public class Tests extends BaseTest {
 
         List<WebElement> searchResultPrices = driver.findElements(By.xpath("//div[@class='price-wrap']/span[@class='price']"));
         ArrayList<Integer> integerPrices = new ArrayList();
+        ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         for (WebElement prices : searchResultPrices) {
             int value = Integer.parseInt(prices.getText().replaceAll("[^0-9]", ""));
             integerPrices.add(value);
+            integerPricesSorted.add(value);
         }
-
-        for (int i = 0; i < integerPrices.size(); i++) {
-            if (i == integerPrices.size() - 1) break;
-            Assert.assertTrue(integerPrices.get(i) > integerPrices.get(i + 1));
-        }
+        Collections.sort(integerPricesSorted);
+        Collections.reverse(integerPricesSorted);
+        Assert.assertEquals(integerPrices, integerPricesSorted);
     }
 
     @Test
