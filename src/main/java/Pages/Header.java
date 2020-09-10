@@ -126,5 +126,4 @@ public class Header extends BasePage {
         int wishlistPrice = Converters.stringCutAndParseToInt(wishlistPriceLabel.getText());
         Assert.assertEquals(wishlistPrice, expectedPrice);
     }
-
 }

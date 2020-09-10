@@ -11,7 +11,7 @@ public class ProductPage extends BasePage{
         super(driver);
     }
 
-    @FindBy(how = How.CSS, using = "#mod_4137928")
+    @FindBy(how = How.XPATH, using = "//span[contains(@class, 'add-to-wishlist-link')]")
     private WebElement addToWishlistButton;
 
     public void addToWishlist() {
