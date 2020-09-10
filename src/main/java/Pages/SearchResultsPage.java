@@ -9,6 +9,7 @@ import org.openqa.selenium.support.How;
 import org.testng.Assert;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -63,20 +64,21 @@ public class SearchResultsPage extends BasePage {
 
     public void verifySortResultsLowToHigh() {
         waitForElementToAppear(sortLowToHighButtonActive);
+        ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
-        for (int i = 0; i < integerPrices.size(); i++) {
-            if (i == integerPrices.size() - 1) break;
-            Assert.assertTrue(integerPrices.get(i) < integerPrices.get(i + 1));
-        }
+        integerPricesSorted.addAll(integerPrices);
+        Collections.sort(integerPricesSorted);
+        Assert.assertEquals(integerPrices, integerPricesSorted);
     }
 
     public void verifySortResultsHighToLow() {
         waitForElementToAppear(sortHighToLowButtonActive);
+        ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
-        for (int i = 0; i < integerPrices.size(); i++) {
-            if (i == integerPrices.size() - 1) break;
-            Assert.assertTrue(integerPrices.get(i) > integerPrices.get(i + 1));
-        }
+        integerPricesSorted.addAll(integerPrices);
+        Collections.sort(integerPricesSorted);
+        Collections.reverse(integerPricesSorted);
+        Assert.assertEquals(integerPrices, integerPricesSorted);
     }
 
     public void goToFirstResult() {

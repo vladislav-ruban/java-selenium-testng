@@ -34,5 +34,4 @@ public class SearchSortingTest extends BaseTest {
         searchResultsPage.sortByPriceHighToLow();
         searchResultsPage.verifySortResultsHighToLow();
     }
-
 }
