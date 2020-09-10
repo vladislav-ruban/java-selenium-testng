@@ -8,7 +8,7 @@
     </test>
     <test name="GoodsActionsFunctionality">
         <classes>
-            <class name="GoodsActionsFunctionalityTest"/>
+            <class name="ProductActionsFunctionalityTest"/>
         </classes>
     </test>
     <test name="Category">

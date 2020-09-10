@@ -5,7 +5,7 @@ import Pages.SearchResultsPage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class GoodsActionsFunctionalityTest extends BaseTest{
+public class ProductActionsFunctionalityTest extends BaseTest{
     private final String searchQuery = "dell precision";
 
     Header header;
