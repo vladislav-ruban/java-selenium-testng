@@ -75,6 +75,14 @@ public final class WebElements {
     @FindBy(how = How.XPATH, using = "//input[@id='RegisterUserFirmForm_user_email']/following::div[@class='error-text']")
     private List<WebElement> loginFormRegisterTabErrorMessagesUnderInputs;
 
+    //Any page when login form opened and there are errors under inputs
+    @FindBy(how = How.XPATH, using = "//div[@class='form-line required-star clearer-block with-black-error']/div[@class='error-text']//preceding-sibling::input[@type='text']")
+    private WebElement loginFormEmailInputOnTopOfErrorMessage;
+
+    //Any page when login form opened and there are errors under inputs
+    @FindBy(how = How.XPATH, using = "//div[@class='form-line required-star clearer-block with-black-error']/div[@class='error-text']//preceding-sibling::input[@type='password']")
+    private WebElement loginFormPasswordInputOnTopOfErrorMessage;
+
     //Login form
     @FindBy(how = How.XPATH, using = "//a[@id='go-tab-recovery']/preceding::div[@class='form-line required-star clearer-block with-black-error']/input[@class='input-text']")
     private List<WebElement> loginFormInputs;
@@ -114,6 +122,10 @@ public final class WebElements {
     //Any product category or search result page
     @FindBy(how = How.XPATH, using = "count(//div[@class='product-block-shadow'])>=1")
     private boolean isProductsPresented;
+
+    //Any product category or search result page
+    @FindBy(how = How.XPATH, using = "count(//ul[@id='main-categories-menu']/li)>=1")
+    private boolean isCategoriesPresented;
 
     //Any product category or search result page
     @FindBy(how = How.XPATH, using = "count(//div[@class='product-block-shadow'])<=40")
