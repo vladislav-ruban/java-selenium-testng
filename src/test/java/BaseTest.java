@@ -1,10 +1,10 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
+import DriverFactory.DriverFactory;
+import Enums.Browsers;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,16 +12,14 @@ public class BaseTest {
     private WebDriver driver;
 
     @BeforeTest
-    public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-notifications");
-        options.addArguments("start-maximized");
-        driver = new ChromeDriver(options);
+    @Parameters({"browser"})
+    public void setUp(Browsers browser) {
+        driver = DriverFactory.driverOpen(browser);
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    @AfterTest
+    @AfterTest(alwaysRun = true)
     public void tearDown() {
         driver.quit();
     }
