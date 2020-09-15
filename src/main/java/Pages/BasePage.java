@@ -20,27 +20,27 @@ public class BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    protected void waitForAllElementsToAppear(List<WebElement> listWebElement) {
+    public void waitForAllElementsToAppear(List<WebElement> listWebElement) {
         wait.until(ExpectedConditions.visibilityOfAllElements(listWebElement));
     }
 
-    protected void waitForElementToAppear(WebElement element) {
+    public void waitForElementToAppear(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    protected void waitForElementToDisappear(WebElement element) {
+    public void waitForElementToDisappear(WebElement element) {
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
-    protected void waitForElementToBeClickable(WebElement element) {
+    public void waitForElementToBeClickable(WebElement element) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    protected void waitForURLToContain(String expectedURLPart) {
+    public void waitForURLToContain(String expectedURLPart) {
         wait.until(ExpectedConditions.urlContains(expectedURLPart));
     }
 
-    protected void typeToInput(WebElement input, String keys) {
+    public void typeToInput(WebElement input, String keys) {
         input.click();
         input.sendKeys(keys);
     }

@@ -1,3 +1,4 @@
+import Enums.ManufacturersMobilePhones;
 import Pages.CategoryMobilePhonesPage;
 import Pages.Header;
 import Pages.MainPage;
@@ -6,6 +7,7 @@ import org.testng.annotations.Test;
 
 public class CategorySelectionAndFilteringTest extends BaseTest {
     private final String categoryNameExpected = "Мобильные телефоны, смартфоны";
+    private final int maxPriceFixed = 1300;
     private final String minPrice = "1000";
     private final String maxPrice = "2000";
 
@@ -28,17 +30,17 @@ public class CategorySelectionAndFilteringTest extends BaseTest {
     }
 
     @Test
-    public void producerFilterTest() {
+    public void manufacturerFilterTest() {
         categorySelectionTest();
-        categoryMobilePhonesPage.filterByProducerApple();
-        categoryMobilePhonesPage.verifyFilteringByProducerApple();
+        categoryMobilePhonesPage.filterByManufacturer(ManufacturersMobilePhones.apple);
+        categoryMobilePhonesPage.verifyFilteringByManufacturer();
     }
 
     @Test
     public void fixedPriceFilterTest() {
         categorySelectionTest();
         categoryMobilePhonesPage.verifyCategoryName(categoryNameExpected);
-        categoryMobilePhonesPage.filterByPriceFixed();
+        categoryMobilePhonesPage.filterByPriceMaxFixed(maxPriceFixed);
         categoryMobilePhonesPage.verifyFilteringByPriceFixed();
     }
 
@@ -48,5 +50,4 @@ public class CategorySelectionAndFilteringTest extends BaseTest {
         categoryMobilePhonesPage.filterByPriceInput(minPrice, maxPrice);
         categoryMobilePhonesPage.verifyFilteringByPriceInput(minPrice, maxPrice);
     }
-
 }
