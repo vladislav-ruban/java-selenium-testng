@@ -1,9 +1,24 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="Smoke" verbose="1" >
-    <test name="price.ua">
+    <test name="SearchAndSorting">
         <classes>
-            <class name="Tests"/>
+            <class name="SearchSortingTest"/>
+        </classes>
+    </test>
+    <test name="GoodsActionsFunctionality">
+        <classes>
+            <class name="ProductActionsFunctionalityTest"/>
+        </classes>
+    </test>
+    <test name="Category">
+        <classes>
+            <class name="CategorySelectionAndFilteringTest"/>
+        </classes>
+    </test>
+    <test name="LoginAndRegistration">
+        <classes>
+            <class name="LoginAndRegistrationTest"/>
         </classes>
     </test>
 </suite>

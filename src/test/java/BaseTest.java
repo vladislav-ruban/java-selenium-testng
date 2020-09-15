@@ -9,13 +9,13 @@ import org.testng.annotations.BeforeTest;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    public WebDriver driver;
+    private WebDriver driver;
 
     @BeforeTest
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--disable-notifications");
+        options.addArguments("--disable-notifications");
         options.addArguments("start-maximized");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -29,5 +29,9 @@ public class BaseTest {
     @BeforeMethod
     public void openPage() {
         driver.get("https://price.ua/");
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 }
