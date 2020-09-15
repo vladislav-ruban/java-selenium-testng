@@ -1,6 +1,9 @@
 package Pages;
 
+import Enums.Extremum;
+import Enums.ManufacturersMobilePhones;
 import Utils.Collectors;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,14 +27,8 @@ public class CategoryMobilePhonesPage extends BasePage{
     @FindBy(how = How.XPATH, using = "//span[@class='breadcrumbs-last']")
     private WebElement categoryName;
 
-    @FindBy(how = How.XPATH, using = "//a[@data-filter-type='producer'][@data-producer-alias='apple']")
-    private WebElement producerAppleCheckbox;
-
     @FindBy(how = How.XPATH, using = "//a[@class='model-name ga_card_mdl_title']")
     private List<WebElement> modelNameTitles;
-
-    @FindBy(how = How.XPATH, using = "//a[@id='sum_range_0']")
-    private WebElement priceFixedTo1300Button;
 
     @FindBy(how = How.XPATH, using = "//input[@id='price_min_']")
     private WebElement minPriceInput;
@@ -48,31 +45,55 @@ public class CategoryMobilePhonesPage extends BasePage{
     @FindBy(how = How.XPATH, using = "//div[@class='price-wrap']//span[@class='price']")
     private List<WebElement> searchResultPrices;
 
+    private String manufacturerCheckboxPath = "//a[@data-filter-type='producer'][@data-producer-alias='%s']";
+    private String manufacturerExample;
+
+    private String fixedPriceCheckboxMaxPath = "//a[contains(@data-filter-value, '\"price[max]\":\"%s\"')]";
+    private String fixedPriceCheckboxMinPath = "//a[contains(@data-filter-value, '\"price[min]\":\"%s\"')]";
+    private int fixedPriceExample;
+    private Extremum fixedPriceMinOrMax;
+
+    public void filterByManufacturer(ManufacturersMobilePhones manufacturerName) {
+        WebElement manufacturerCheckBox = driver.findElement(By.xpath(String.format(manufacturerCheckboxPath, manufacturerName)));
+        waitForElementToAppear(manufacturerCheckBox);
+        manufacturerExample = manufacturerCheckBox.getText();
+        manufacturerCheckBox.click();
+    }
+
+    public void verifyFilteringByManufacturer() {
+        waitForAllElementsToAppear(modelNameTitles);
+        List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
+        assertThat(modelNamesString, everyItem(containsString(manufacturerExample)));
+    }
+
     public void verifyCategoryName(String categoryNameExpected) {
         waitForElementToAppear(categoryName);
         Assert.assertEquals(categoryName.getText(), categoryNameExpected);
     }
 
-    public void filterByProducerApple() {
-        waitForElementToAppear(producerAppleCheckbox);
-        producerAppleCheckbox.click();
+    public void filterByPriceMinFixed(int minValue) {
+        WebElement fixedPriceCheckbox = driver.findElement(By.xpath(String.format(fixedPriceCheckboxMinPath, minValue)));
+        waitForElementToAppear(fixedPriceCheckbox);
+        fixedPriceExample = minValue;
+        fixedPriceMinOrMax = Extremum.min;
+        fixedPriceCheckbox.click();
     }
 
-    public void verifyFilteringByProducerApple() {
-        waitForAllElementsToAppear(modelNameTitles);
-        List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
-        assertThat(modelNamesString, everyItem(containsString(producerAppleCheckbox.getText())));
-    }
-
-    public void filterByPriceFixed() {
-        waitForElementToAppear(priceFixedTo1300Button);
-        priceFixedTo1300Button.click();
+    public void filterByPriceMaxFixed(int maxValue) {
+        WebElement fixedPriceCheckbox = driver.findElement(By.xpath(String.format(fixedPriceCheckboxMaxPath, maxValue)));
+        waitForElementToAppear(fixedPriceCheckbox);
+        fixedPriceExample = maxValue;
+        fixedPriceMinOrMax = Extremum.max;
+        fixedPriceCheckbox.click();
     }
 
     public void verifyFilteringByPriceFixed() {
         waitForElementToAppear(appliedFiltersTitle);
-        waitForURLToContain("price[max]=1300");
-        assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(lessThanOrEqualTo(1300)));
+        waitForURLToContain(String.valueOf(fixedPriceExample));
+        switch(fixedPriceMinOrMax) {
+            case min -> assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(greaterThanOrEqualTo(fixedPriceExample)));
+            case max -> assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(lessThanOrEqualTo(fixedPriceExample)));
+        }
     }
 
     public void filterByPriceInput(String minPrice, String maxPrice) {
