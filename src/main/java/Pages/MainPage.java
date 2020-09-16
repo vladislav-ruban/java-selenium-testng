@@ -18,6 +18,9 @@ public class MainPage extends BasePage{
     @FindBy(how = How.XPATH, using = "//a[@class='ga_cats_lateral'][@data-tracker-cid='52']")
     private WebElement categoryMobilePhonesButton;
 
+    @FindBy(how = How.XPATH, using = "//img[@decoding='async']")
+    private WebElement adGoogleImg;
+
     public void goToCategoryMobilePhones() {
         Actions action = new Actions(driver);
         action.moveToElement(categoryMobileConnectionButton).perform();

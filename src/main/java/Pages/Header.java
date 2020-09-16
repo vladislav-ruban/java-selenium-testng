@@ -71,12 +71,12 @@ public class Header extends BasePage {
     }
 
     public void openLoginForm() {
-        WaitUtils.waitForElementToAppear(loginButton);
+        WaitUtils.waitForElementToBeClickable(loginButton);
         loginButton.click();
     }
 
     public void loginWithCredentials(String email, String password) {
-        WaitUtils.waitForElementToAppear(loginForm);
+        WaitUtils.waitForElementToBeVisible(loginForm);
         WaitUtils.waitForElementToBeClickable(loginFormEmailInput);
         loginFormEmailInput.click();
         loginFormEmailInput.sendKeys(email);
@@ -105,13 +105,13 @@ public class Header extends BasePage {
     }
 
     public void verifyEmailNotConfirmedMessage(String expectedMessage) {
-        WaitUtils.waitForElementToDisappear(loginForm);
-        WaitUtils.waitForElementToAppear(emailNotConfirmedMessage);
+        WaitUtils.waitForElementToBeInvisibe(loginForm);
+        WaitUtils.waitForElementToBeVisible(emailNotConfirmedMessage);
         Assert.assertEquals(emailNotConfirmedMessage.getText().toLowerCase(), expectedMessage.toLowerCase());
     }
 
     public void searchFor(String searchQuery) {
-        WaitUtils.waitForElementToAppear(searchBar);
+        WaitUtils.waitForElementToBeVisible(searchBar);
         searchBar.click();
         searchBar.sendKeys(searchQuery);
         searchBar.submit();
@@ -123,7 +123,7 @@ public class Header extends BasePage {
     }
 
     public void verifyWishlistPrice(int expectedPrice) {
-        WaitUtils.waitForElementToAppear(wishlistPriceLabel);
+        WaitUtils.waitForElementToBeVisible(wishlistPriceLabel);
         int wishlistPrice = Converters.stringCutAndParseToInt(wishlistPriceLabel.getText());
         Assert.assertEquals(wishlistPrice, expectedPrice);
     }

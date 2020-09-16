@@ -5,7 +5,7 @@ import Pages.SearchResultsPage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class ProductActionsFunctionalityTest extends BaseTest{
+public class ProductActionsFunctionalityTest extends BaseTest {
     private final String searchQuery = "dell precision";
 
     Header header;
@@ -27,7 +27,6 @@ public class ProductActionsFunctionalityTest extends BaseTest{
         searchResultsPage.verifySearchResults(searchQuery);
         int price = searchResultsPage.getFirstResultPrice();
         searchResultsPage.goToFirstResult();
-        header.closeAnnouncement();
         productPage.addToWishlist();
         header.openWishlist();
         header.verifyWishlistPrice(price);

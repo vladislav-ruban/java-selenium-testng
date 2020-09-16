@@ -47,24 +47,24 @@ public class SearchResultsPage extends BasePage {
     private WebElement sortHighToLowButtonActive;
 
     public void verifySearchResults(String searchQuery) {
-        WaitUtils.waitForElementToAppear(sortLowToHighButton);
+        WaitUtils.waitForElementToBeVisible(sortLowToHighButton);
         List<String> searchResultTitlesString = new ArrayList<>();
         for (WebElement title : searchResultTitles) searchResultTitlesString.add(title.getText().toLowerCase());
         assertThat(searchResultTitlesString, everyItem(containsString(searchQuery)));
     }
 
     public void sortByPriceLowToHigh() {
-        WaitUtils.waitForElementToAppear(sortLowToHighButton);
+        WaitUtils.waitForElementToBeVisible(sortLowToHighButton);
         sortLowToHighButton.click();
     }
 
     public void sortByPriceHighToLow() {
-        WaitUtils.waitForElementToAppear(sortHighToLowButton);
+        WaitUtils.waitForElementToBeVisible(sortHighToLowButton);
         sortHighToLowButton.click();
     }
 
     public void verifySortResultsLowToHigh() {
-        WaitUtils.waitForElementToAppear(sortLowToHighButtonActive);
+        WaitUtils.waitForElementToBeVisible(sortLowToHighButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);
@@ -73,7 +73,7 @@ public class SearchResultsPage extends BasePage {
     }
 
     public void verifySortResultsHighToLow() {
-        WaitUtils.waitForElementToAppear(sortHighToLowButtonActive);
+        WaitUtils.waitForElementToBeVisible(sortHighToLowButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);

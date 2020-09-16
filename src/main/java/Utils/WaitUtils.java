@@ -13,15 +13,15 @@ public class WaitUtils extends BasePage {
         super(driver);
     }
 
-    public static void waitForAllElementsToAppear(List<WebElement> listWebElement) {
+    public static void waitForAllElementsToBeVisible(List<WebElement> listWebElement) {
         wait.until(ExpectedConditions.visibilityOfAllElements(listWebElement));
     }
 
-    public static void waitForElementToAppear(WebElement element) {
+    public static void waitForElementToBeVisible(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public static void waitForElementToDisappear(WebElement element) {
+    public static void waitForElementToBeInvisibe(WebElement element) {
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
@@ -31,6 +31,26 @@ public class WaitUtils extends BasePage {
 
     public static void waitForURLToContain(String expectedURLPart) {
         wait.until(ExpectedConditions.urlContains(expectedURLPart));
+    }
+
+    public static void waitFluentlyForElementToBeVisible(WebElement element) {
+        fluentWait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public static void waitFluentlyForAllElementsToBeVisible(List<WebElement> listWebElements) {
+        fluentWait.until(ExpectedConditions.visibilityOfAllElements(listWebElements));
+    }
+
+    public static void waitFluentlyForElementToBeInvisible(WebElement element) {
+        fluentWait.until(ExpectedConditions.invisibilityOf(element));
+    }
+
+    public static void waitFluentlyForAllElementsToBeInvisible(List<WebElement> listWebElements) {
+        fluentWait.until(ExpectedConditions.invisibilityOfAllElements(listWebElements));
+    }
+
+    public static void waitForElementToContainText(WebElement element) {
+        fluentWait.until(driver -> element.getText().length() > 0);
     }
 
 }

@@ -49,30 +49,35 @@ public class CategoryMobilePhonesPage extends BasePage{
     @FindBy(how = How.XPATH, using = "//div[@class='price-wrap']//span[@class='price']")
     private List<WebElement> searchResultPrices;
 
+    @FindBy(how = How.XPATH, using = "//div[@class='loader-dots-wrap']")
+    private WebElement loaderDotsWrap;
+
     public void verifyCategoryName(String categoryNameExpected) {
-        WaitUtils.waitForElementToAppear(categoryName);
+        WaitUtils.waitForElementToBeVisible(categoryName);
         Assert.assertEquals(categoryName.getText(), categoryNameExpected);
     }
 
     public void filterByProducerApple() {
-        WaitUtils.waitForElementToAppear(producerAppleCheckbox);
+        WaitUtils.waitForElementToBeVisible(producerAppleCheckbox);
         producerAppleCheckbox.click();
     }
 
     public void verifyFilteringByProducerApple() {
-        WaitUtils.waitForAllElementsToAppear(modelNameTitles);
+        WaitUtils.waitForAllElementsToBeVisible(modelNameTitles);
         List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
         assertThat(modelNamesString, everyItem(containsString(producerAppleCheckbox.getText())));
     }
 
     public void filterByPriceFixed() {
-        WaitUtils.waitForElementToAppear(priceFixedTo1300Button);
+        WaitUtils.waitForElementToBeVisible(priceFixedTo1300Button);
         priceFixedTo1300Button.click();
     }
 
     public void verifyFilteringByPriceFixed() {
-        WaitUtils.waitForElementToAppear(appliedFiltersTitle);
-        WaitUtils.waitForURLToContain("price[max]=1300");
+        WaitUtils.waitFluentlyForElementToBeVisible(loaderDotsWrap);
+        WaitUtils.waitFluentlyForElementToBeInvisible(loaderDotsWrap);
+        WaitUtils.waitForElementToBeVisible(appliedFiltersTitle);
+//        WaitUtils.waitForURLToContain("price[max]=1300");
         assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(lessThanOrEqualTo(1300)));
     }
 
