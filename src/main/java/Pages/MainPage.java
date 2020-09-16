@@ -1,5 +1,6 @@
 package Pages;
 
+import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,7 +21,7 @@ public class MainPage extends BasePage{
     public void goToCategoryMobilePhones() {
         Actions action = new Actions(driver);
         action.moveToElement(categoryMobileConnectionButton).perform();
-        waitForElementToBeClickable(categoryMobilePhonesButton);
+        WaitUtils.waitForElementToBeClickable(categoryMobilePhonesButton);
         categoryMobilePhonesButton.click();
     }
 }

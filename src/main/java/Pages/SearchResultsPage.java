@@ -2,6 +2,7 @@ package Pages;
 
 import Utils.Collectors;
 import Utils.Converters;
+import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -46,24 +47,24 @@ public class SearchResultsPage extends BasePage {
     private WebElement sortHighToLowButtonActive;
 
     public void verifySearchResults(String searchQuery) {
-        waitForElementToAppear(sortLowToHighButton);
+        WaitUtils.waitForElementToAppear(sortLowToHighButton);
         List<String> searchResultTitlesString = new ArrayList<>();
         for (WebElement title : searchResultTitles) searchResultTitlesString.add(title.getText().toLowerCase());
         assertThat(searchResultTitlesString, everyItem(containsString(searchQuery)));
     }
 
     public void sortByPriceLowToHigh() {
-        waitForElementToAppear(sortLowToHighButton);
+        WaitUtils.waitForElementToAppear(sortLowToHighButton);
         sortLowToHighButton.click();
     }
 
     public void sortByPriceHighToLow() {
-        waitForElementToAppear(sortHighToLowButton);
+        WaitUtils.waitForElementToAppear(sortHighToLowButton);
         sortHighToLowButton.click();
     }
 
     public void verifySortResultsLowToHigh() {
-        waitForElementToAppear(sortLowToHighButtonActive);
+        WaitUtils.waitForElementToAppear(sortLowToHighButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);
@@ -72,7 +73,7 @@ public class SearchResultsPage extends BasePage {
     }
 
     public void verifySortResultsHighToLow() {
-        waitForElementToAppear(sortHighToLowButtonActive);
+        WaitUtils.waitForElementToAppear(sortHighToLowButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);
@@ -82,7 +83,7 @@ public class SearchResultsPage extends BasePage {
     }
 
     public void goToFirstResult() {
-        waitForElementToBeClickable(firstSearchResult);
+        WaitUtils.waitForElementToBeClickable(firstSearchResult);
         firstSearchResult.click();
     }
 

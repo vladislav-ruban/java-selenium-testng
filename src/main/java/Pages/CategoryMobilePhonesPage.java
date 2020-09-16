@@ -1,6 +1,7 @@
 package Pages;
 
 import Utils.Collectors;
+import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -49,43 +50,43 @@ public class CategoryMobilePhonesPage extends BasePage{
     private List<WebElement> searchResultPrices;
 
     public void verifyCategoryName(String categoryNameExpected) {
-        waitForElementToAppear(categoryName);
+        WaitUtils.waitForElementToAppear(categoryName);
         Assert.assertEquals(categoryName.getText(), categoryNameExpected);
     }
 
     public void filterByProducerApple() {
-        waitForElementToAppear(producerAppleCheckbox);
+        WaitUtils.waitForElementToAppear(producerAppleCheckbox);
         producerAppleCheckbox.click();
     }
 
     public void verifyFilteringByProducerApple() {
-        waitForAllElementsToAppear(modelNameTitles);
+        WaitUtils.waitForAllElementsToAppear(modelNameTitles);
         List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
         assertThat(modelNamesString, everyItem(containsString(producerAppleCheckbox.getText())));
     }
 
     public void filterByPriceFixed() {
-        waitForElementToAppear(priceFixedTo1300Button);
+        WaitUtils.waitForElementToAppear(priceFixedTo1300Button);
         priceFixedTo1300Button.click();
     }
 
     public void verifyFilteringByPriceFixed() {
-        waitForElementToAppear(appliedFiltersTitle);
-        waitForURLToContain("price[max]=1300");
+        WaitUtils.waitForElementToAppear(appliedFiltersTitle);
+        WaitUtils.waitForURLToContain("price[max]=1300");
         assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(lessThanOrEqualTo(1300)));
     }
 
     public void filterByPriceInput(String minPrice, String maxPrice) {
-        waitForElementToBeClickable(minPriceInput);
-        waitForElementToBeClickable(maxPriceInput);
+        WaitUtils.waitForElementToBeClickable(minPriceInput);
+        WaitUtils.waitForElementToBeClickable(maxPriceInput);
         typeToInput(minPriceInput, minPrice);
         typeToInput(maxPriceInput, maxPrice);
         inputPriceOKButton.click();
     }
 
     public void verifyFilteringByPriceInput(String minPrice, String maxPrice) {
-        waitForURLToContain(minPrice);
-        waitForURLToContain(maxPrice);
+        WaitUtils.waitForURLToContain(minPrice);
+        WaitUtils.waitForURLToContain(maxPrice);
         int minPriceInt = Integer.parseInt(minPrice);
         int maxPriceInt = Integer.parseInt(maxPrice);
         List<Integer> prices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);

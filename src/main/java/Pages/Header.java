@@ -1,6 +1,7 @@
 package Pages;
 
 import Utils.Converters;
+import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -65,18 +66,18 @@ public class Header extends BasePage {
     private WebElement loginFormErrorMessageUnderPassword;
 
     public void closeAnnouncement() {
-        waitForElementToBeClickable(closeAnnouncementButton);
+        WaitUtils.waitForElementToBeClickable(closeAnnouncementButton);
         closeAnnouncementButton.click();
     }
 
     public void openLoginForm() {
-        waitForElementToAppear(loginButton);
+        WaitUtils.waitForElementToAppear(loginButton);
         loginButton.click();
     }
 
     public void loginWithCredentials(String email, String password) {
-        waitForElementToAppear(loginForm);
-        waitForElementToBeClickable(loginFormEmailInput);
+        WaitUtils.waitForElementToAppear(loginForm);
+        WaitUtils.waitForElementToBeClickable(loginFormEmailInput);
         loginFormEmailInput.click();
         loginFormEmailInput.sendKeys(email);
         loginFormPasswordInput.click();
@@ -85,12 +86,12 @@ public class Header extends BasePage {
     }
 
     public void GoToLoginFormRegisterTab() {
-        waitForElementToBeClickable(loginFormRegisterTab);
+        WaitUtils.waitForElementToBeClickable(loginFormRegisterTab);
         loginFormRegisterTab.click();
     }
 
     public void registerWithCredentials(String email, String password) {
-        waitForElementToBeClickable(loginFormRegisterTabEmailInput);
+        WaitUtils.waitForElementToBeClickable(loginFormRegisterTabEmailInput);
         loginFormRegisterTabEmailInput.click();
         loginFormRegisterTabEmailInput.sendKeys(email);
         loginFormRegisterTabPasswordInput.click();
@@ -104,25 +105,25 @@ public class Header extends BasePage {
     }
 
     public void verifyEmailNotConfirmedMessage(String expectedMessage) {
-        waitForElementToDisappear(loginForm);
-        waitForElementToAppear(emailNotConfirmedMessage);
+        WaitUtils.waitForElementToDisappear(loginForm);
+        WaitUtils.waitForElementToAppear(emailNotConfirmedMessage);
         Assert.assertEquals(emailNotConfirmedMessage.getText().toLowerCase(), expectedMessage.toLowerCase());
     }
 
     public void searchFor(String searchQuery) {
-        waitForElementToAppear(searchBar);
+        WaitUtils.waitForElementToAppear(searchBar);
         searchBar.click();
         searchBar.sendKeys(searchQuery);
         searchBar.submit();
     }
 
     public void openWishlist() {
-        waitForElementToBeClickable(wishlistButton);
+        WaitUtils.waitForElementToBeClickable(wishlistButton);
         wishlistButton.click();
     }
 
     public void verifyWishlistPrice(int expectedPrice) {
-        waitForElementToAppear(wishlistPriceLabel);
+        WaitUtils.waitForElementToAppear(wishlistPriceLabel);
         int wishlistPrice = Converters.stringCutAndParseToInt(wishlistPriceLabel.getText());
         Assert.assertEquals(wishlistPrice, expectedPrice);
     }
