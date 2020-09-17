@@ -6,7 +6,6 @@ import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -22,28 +21,28 @@ public class SearchResultsPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(how = How.XPATH, using = "//div[@class='white-wrap']/a[@class='model-name ga_card_mdl_title']")
+    @FindBy(xpath = ".//div[@class='white-wrap']/a[@class='model-name ga_card_mdl_title']")
     private List<WebElement> searchResultTitles;
 
-    @FindBy(how = How.XPATH, using = "//a[@class='model-name ga_card_mdl_title']")
+    @FindBy(xpath = ".//a[@class='model-name ga_card_mdl_title']")
     private WebElement firstSearchResult;
 
-    @FindBy(how = How.XPATH, using = "//a[@class='model-name ga_card_mdl_title']/following::span[@class='price']")
+    @FindBy(xpath = ".//a[@class='model-name ga_card_mdl_title']/following::span[@class='price']")
     private WebElement firstSearchResultPrice;
 
-    @FindBy(how = How.XPATH, using = "//div[@class='price-wrap']//span[@class='price']")
+    @FindBy(xpath = ".//div[@class='price-wrap']//span[@class='price']")
     private List<WebElement> searchResultPrices;
 
-    @FindBy(how = How.XPATH, using = "//a[@class='link ga_cat_sort low-to-hight']")
+    @FindBy(xpath = ".//a[@class='link ga_cat_sort low-to-hight']")
     private WebElement sortLowToHighButton;
 
-    @FindBy(how = How.XPATH, using = "//a[@class='link ga_cat_sort low-to-hight active']")
+    @FindBy(xpath = ".//a[@class='link ga_cat_sort low-to-hight active']")
     private WebElement sortLowToHighButtonActive;
 
-    @FindBy(how = How.XPATH, using = "//a[@class='link ga_cat_sort hight-to-low']")
+    @FindBy(xpath = ".//a[@class='link ga_cat_sort hight-to-low']")
     private WebElement sortHighToLowButton;
 
-    @FindBy(how = How.XPATH, using = "//a[@class='link ga_cat_sort hight-to-low active']")
+    @FindBy(xpath = ".//a[@class='link ga_cat_sort hight-to-low active']")
     private WebElement sortHighToLowButtonActive;
 
     public void verifySearchResults(String searchQuery) {
