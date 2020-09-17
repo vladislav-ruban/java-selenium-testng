@@ -13,55 +13,55 @@ public class Header extends BasePage {
         super(driver);
     }
 
-    @FindBy(how = How.XPATH, using = "//button[@class='close announcement-acb']")
+    @FindBy(how = How.XPATH, using = ".//button[@class='close announcement-acb']")
     private WebElement closeAnnouncementButton;
 
-    @FindBy(how = How.XPATH, using = "//header[@id='site-header']")
+    @FindBy(how = How.XPATH, using = ".//header[@id='site-header']")
     private WebElement header;
 
-    @FindBy(how = How.XPATH, using = "//input[@id='SearchForm_searchPhrase']")
+    @FindBy(how = How.XPATH, using = ".//input[@id='SearchForm_searchPhrase']")
     private WebElement searchBar;
 
-    @FindBy(how = How.XPATH, using = "//a[@class='wishlist-panel-link']")
+    @FindBy(how = How.XPATH, using = ".//a[@class='wishlist-panel-link']")
     private WebElement wishlistButton;
 
-    @FindBy(how = How.XPATH, using = "//span[@class='amount-wish']")
+    @FindBy(how = How.XPATH, using = ".//span[@class='amount-wish']")
     private WebElement wishlistPriceLabel;
 
-    @FindBy(how = How.XPATH, using = "//a[@form-name='login']")
+    @FindBy(how = How.XPATH, using = ".//a[@form-name='login']")
     private WebElement loginButton;
 
-    @FindBy(how = How.XPATH, using = "//button[@class='close announcement-acb']")
+    @FindBy(how = How.XPATH, using = ".//button[@class='close announcement-acb']")
     private WebElement closeAdButton;
 
-    @FindBy(how = How.XPATH, using = "//div[@class='form-content type-login']")
+    @FindBy(how = How.XPATH, using = ".//div[@class='form-content type-login']")
     private WebElement loginForm;
 
-    @FindBy(how = How.XPATH, using = "//input[@name='LoginForm[username]']")
+    @FindBy(how = How.XPATH, using = ".//input[@name='LoginForm[username]']")
     private WebElement loginFormEmailInput;
 
-    @FindBy(how = How.XPATH, using = "//input[@name='LoginForm[password]']")
+    @FindBy(how = How.XPATH, using = ".//input[@name='LoginForm[password]']")
     private WebElement loginFormPasswordInput;
 
-    @FindBy(how = How.XPATH, using = "//div[@class='tab active']//div[@class='title']/span")
+    @FindBy(how = How.XPATH, using = ".//div[@class='tab active']//div[@class='title']/span")
     private WebElement emailNotConfirmedMessage;
 
-    @FindBy(how = How.XPATH, using = "//div[@id='go-tab-userregister']")
+    @FindBy(how = How.XPATH, using = ".//div[@id='go-tab-userregister']")
     private WebElement loginFormRegisterTab;
 
-    @FindBy(how = How.XPATH, using = "//input[@id='RegisterUserFirmForm_user_email']")
+    @FindBy(how = How.XPATH, using = ".//input[@id='RegisterUserFirmForm_user_email']")
     private WebElement loginFormRegisterTabEmailInput;
 
-    @FindBy(how = How.XPATH, using = "//input[@id='user_user_password']")
+    @FindBy(how = How.XPATH, using = ".//input[@id='user_user_password']")
     private WebElement loginFormRegisterTabPasswordInput;
 
-    @FindBy(how = How.XPATH, using = "//a[@data-type='userregister']")
+    @FindBy(how = How.XPATH, using = ".//a[@data-type='userregister']")
     private WebElement loginFormRegisterButton;
 
-    @FindBy(how = How.XPATH, using = "//input[@id='RegisterUserFirmForm_user_email']/following-sibling::div[@class='error-text']")
+    @FindBy(how = How.XPATH, using = ".//input[@id='RegisterUserFirmForm_user_email']/following-sibling::div[@xpathlass='error-text']")
     private WebElement loginFormErrorMessageUnderEmail;
 
-    @FindBy(how = How.XPATH, using = "//input[@id='user_user_password']/following-sibling::div[@class='error-text']")
+    @FindBy(how = How.XPATH, using = ".//input[@id='user_user_password']/following-sibling::div[@class='error-text']")
     private WebElement loginFormErrorMessageUnderPassword;
 
     public void closeAnnouncement() {

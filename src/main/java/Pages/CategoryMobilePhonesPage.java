@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
 import org.testng.Assert;
 
 import java.util.List;
@@ -24,32 +23,32 @@ public class CategoryMobilePhonesPage extends BasePage{
         super(driver);
     }
 
-    @FindBy(how = How.XPATH, using = "//span[@class='breadcrumbs-last']")
+    @FindBy(xpath = ".//span[@class='breadcrumbs-last']")
     private WebElement categoryName;
 
-    @FindBy(how = How.XPATH, using = "//a[@class='model-name ga_card_mdl_title']")
+    @FindBy(xpath = ".//a[@class='model-name ga_card_mdl_title']")
     private List<WebElement> modelNameTitles;
 
-    @FindBy(how = How.XPATH, using = "//input[@id='price_min_']")
+    @FindBy(xpath = ".//input[@id='price_min_']")
     private WebElement minPriceInput;
 
-    @FindBy(how = How.XPATH, using = "//input[@id='price_max_']")
+    @FindBy(xpath = ".//input[@id='price_max_']")
     private WebElement maxPriceInput;
 
-    @FindBy(how = How.XPATH, using = "//a[@class='btn btn-purple ga_cat_filter btn-filters-submit btn-ok']")
+    @FindBy(xpath = ".//a[@class='btn btn-purple ga_cat_filter btn-filters-submit btn-ok']")
     private WebElement inputPriceOKButton;
 
-    @FindBy(how = How.XPATH, using = "//div[@class='applied-filters']")
+    @FindBy(xpath = ".//div[@class='applied-filters']")
     private WebElement appliedFiltersTitle;
 
-    @FindBy(how = How.XPATH, using = "//div[@class='price-wrap']//span[@class='price']")
+    @FindBy(xpath = ".//div[@class='price-wrap']//span[@class='price']")
     private List<WebElement> searchResultPrices;
 
-    private String manufacturerCheckboxPath = "//a[@data-filter-type='producer'][@data-producer-alias='%s']";
+    private String manufacturerCheckboxPath = ".//a[@data-filter-type='producer'][@data-producer-alias='%s']";
     private String manufacturerExample;
 
-    private String fixedPriceCheckboxMaxPath = "//a[contains(@data-filter-value, '\"price[max]\":\"%s\"')]";
-    private String fixedPriceCheckboxMinPath = "//a[contains(@data-filter-value, '\"price[min]\":\"%s\"')]";
+    private String fixedPriceCheckboxMaxPath = ".//a[contains(@data-filter-value, '\"price[max]\":\"%s\"')]";
+    private String fixedPriceCheckboxMinPath = ".//a[contains(@data-filter-value, '\"price[min]\":\"%s\"')]";
     private int fixedPriceExample;
     private Extremum fixedPriceMinOrMax;
 
