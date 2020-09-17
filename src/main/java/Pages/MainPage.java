@@ -17,7 +17,7 @@ public class MainPage extends BasePage{
     @FindBy(xpath = ".//a[@class='ga_cats_lateral'][@data-tracker-cid='52']")
     private WebElement categoryMobilePhonesButton;
 
-    @FindBy(how = How.XPATH, using = "//img[@decoding='async']")
+    @FindBy(xpath = "//img[@decoding='async']")
     private WebElement adGoogleImg;
 
     public void goToCategoryMobilePhones() {

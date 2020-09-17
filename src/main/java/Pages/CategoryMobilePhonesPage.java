@@ -61,7 +61,7 @@ public class CategoryMobilePhonesPage extends BasePage{
     }
 
     public void verifyFilteringByManufacturer() {
-        WaitUtils.waitForAllElementsToBeVisible(modelNameTitles)
+        WaitUtils.waitForAllElementsToBeVisible(modelNameTitles);
         List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
         assertThat(modelNamesString, everyItem(containsString(manufacturerExample)));
     }
