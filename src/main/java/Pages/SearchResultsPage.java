@@ -6,6 +6,7 @@ import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -16,12 +17,16 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class SearchResultsPage extends BasePage {
-    public SearchResultsPage(WebDriver driver) {
-        super(driver);
-    }
+public class SearchResultsPage {
 
-    WaitUtils waitUtils = new WaitUtils(driver);
+    WebDriver driver;
+    WaitUtils waitUtils;
+
+    public SearchResultsPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        waitUtils = new WaitUtils(driver);
+    }
 
     @FindBy(xpath = ".//div[@class='white-wrap']/a[@class='model-name ga_card_mdl_title']")
     private List<WebElement> searchResultTitles;

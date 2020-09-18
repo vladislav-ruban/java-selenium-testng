@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import java.util.List;
@@ -18,13 +19,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
-public class CategoryMobilePhonesPage extends BasePage{
+public class CategoryMobilePhonesPage {
+
+    WebDriver driver;
+    WaitUtils waitUtils;
 
     public CategoryMobilePhonesPage(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        waitUtils = new WaitUtils(driver);
     }
-    
-    WaitUtils waitUtils = new WaitUtils(driver);
     
     @FindBy(xpath = ".//span[@class='breadcrumbs-last']")
     private WebElement categoryName;
@@ -47,7 +51,7 @@ public class CategoryMobilePhonesPage extends BasePage{
     @FindBy(xpath = ".//div[@class='price-wrap']//span[@class='price']")
     private List<WebElement> searchResultPrices;
 
-    @FindBy(xpath = "//div[@class='loader-dots-wrap']")
+    @FindBy(xpath = ".//div[@class='loader-dots-wrap']")
     private WebElement loaderDotsWrap;
 
     private String manufacturerCheckboxPath = ".//a[@data-filter-type='producer'][@data-producer-alias='%s']";
@@ -66,7 +70,7 @@ public class CategoryMobilePhonesPage extends BasePage{
     }
 
     public void verifyFilteringByManufacturer() {
-        waitUtils.waitForAllElementsToBeVisible(modelNameTitles);
+        waitUtils.waitForElementsToBeVisible(modelNameTitles);
         List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
         assertThat(modelNamesString, everyItem(containsString(manufacturerExample)));
     }
@@ -93,8 +97,8 @@ public class CategoryMobilePhonesPage extends BasePage{
     }
 
     public void verifyFilteringByPriceFixed() {
-        waitUtils.waitFluentlyForElementToBeVisible(loaderDotsWrap);
-        waitUtils.waitFluentlyForElementToBeInvisible(loaderDotsWrap);
+        waitUtils.waitForElementToBeVisible(loaderDotsWrap);
+        waitUtils.waitForElementToBeInvisible(loaderDotsWrap);
         waitUtils.waitForElementToBeVisible(appliedFiltersTitle);
         switch(fixedPriceMinOrMax) {
             case min -> assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(greaterThanOrEqualTo(fixedPriceExample)));
@@ -105,8 +109,10 @@ public class CategoryMobilePhonesPage extends BasePage{
     public void filterByPriceInput(String minPrice, String maxPrice) {
         waitUtils.waitForElementToBeClickable(minPriceInput);
         waitUtils.waitForElementToBeClickable(maxPriceInput);
-        typeToInput(minPriceInput, minPrice);
-        typeToInput(maxPriceInput, maxPrice);
+        minPriceInput.click();
+        minPriceInput.sendKeys(minPrice);
+        maxPriceInput.click();
+        maxPriceInput.sendKeys(maxPrice);
         inputPriceOKButton.click();
     }
 

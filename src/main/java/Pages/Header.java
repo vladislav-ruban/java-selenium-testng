@@ -5,15 +5,19 @@ import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-public class Header extends BasePage {
+public class Header {
+
+    WebDriver driver;
+    WaitUtils waitUtils;
 
     public Header(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        waitUtils = new WaitUtils(driver);
     }
-
-    WaitUtils waitUtils = new WaitUtils(driver);
     
     @FindBy(xpath = ".//button[@class='close announcement-acb']")
     private WebElement closeAnnouncementButton;
@@ -106,7 +110,7 @@ public class Header extends BasePage {
     }
 
     public void verifyEmailNotConfirmedMessage(String expectedMessage) {
-        waitUtils.waitForElementToBeInvisibe(loginForm);
+        waitUtils.waitForElementToBeInvisible(loginForm);
         waitUtils.waitForElementToBeVisible(emailNotConfirmedMessage);
         Assert.assertEquals(emailNotConfirmedMessage.getText().toLowerCase(), expectedMessage.toLowerCase());
     }

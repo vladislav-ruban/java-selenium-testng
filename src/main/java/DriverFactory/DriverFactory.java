@@ -11,7 +11,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class DriverFactory {
-    public static WebDriver driverOpen(Browsers browser) {
+    public static WebDriver getBrowser(Browsers browser) {
         switch(browser) {
             case CHROME -> {
                 return getChromeDriver();
