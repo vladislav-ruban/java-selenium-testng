@@ -11,6 +11,8 @@ public class MainPage extends BasePage{
         super(driver);
     }
 
+    WaitUtils waitUtils = new WaitUtils(driver);
+    
     @FindBy(xpath = ".//a[@class='ga_cats_lateral'][@data-tracker-cid='6']")
     private WebElement categoryMobileConnectionButton;
 
@@ -23,7 +25,7 @@ public class MainPage extends BasePage{
     public void goToCategoryMobilePhones() {
         Actions action = new Actions(driver);
         action.moveToElement(categoryMobileConnectionButton).perform();
-        WaitUtils.waitForElementToBeClickable(categoryMobilePhonesButton);
+        waitUtils.waitForElementToBeClickable(categoryMobilePhonesButton);
         categoryMobilePhonesButton.click();
     }
 }

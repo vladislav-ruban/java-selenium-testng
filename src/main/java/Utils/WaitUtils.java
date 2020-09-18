@@ -4,52 +4,66 @@ import Pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class WaitUtils extends BasePage {
 
+    private final int TIMEOUT = 10;
+    private final int POLLING = 100;
+
+    private WebDriverWait wait;
+    private Wait fluentWait;
+
     public WaitUtils(WebDriver driver) {
         super(driver);
+        wait = new WebDriverWait(driver, TIMEOUT);
+        fluentWait = new FluentWait(driver)
+                .withTimeout(Duration.ofSeconds(TIMEOUT))
+                .pollingEvery(Duration.ofMillis(POLLING));
     }
 
-    public static void waitForAllElementsToBeVisible(List<WebElement> listWebElement) {
+    public void waitForAllElementsToBeVisible(List<WebElement> listWebElement) {
         wait.until(ExpectedConditions.visibilityOfAllElements(listWebElement));
     }
 
-    public static void waitForElementToBeVisible(WebElement element) {
+    public void waitForElementToBeVisible(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public static void waitForElementToBeInvisibe(WebElement element) {
+    public void waitForElementToBeInvisibe(WebElement element) {
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
-    public static void waitForElementToBeClickable(WebElement element) {
+    public void waitForElementToBeClickable(WebElement element) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public static void waitForURLToContain(String expectedURLPart) {
+    public void waitForURLToContain(String expectedURLPart) {
         wait.until(ExpectedConditions.urlContains(expectedURLPart));
     }
 
-    public static void waitFluentlyForElementToBeVisible(WebElement element) {
+    public void waitFluentlyForElementToBeVisible(WebElement element) {
         fluentWait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public static void waitFluentlyForAllElementsToBeVisible(List<WebElement> listWebElements) {
+    public void waitFluentlyForAllElementsToBeVisible(List<WebElement> listWebElements) {
         fluentWait.until(ExpectedConditions.visibilityOfAllElements(listWebElements));
     }
 
-    public static void waitFluentlyForElementToBeInvisible(WebElement element) {
+    public void waitFluentlyForElementToBeInvisible(WebElement element) {
         fluentWait.until(ExpectedConditions.invisibilityOf(element));
     }
 
-    public static void waitFluentlyForAllElementsToBeInvisible(List<WebElement> listWebElements) {
+    public void waitFluentlyForAllElementsToBeInvisible(List<WebElement> listWebElements) {
         fluentWait.until(ExpectedConditions.invisibilityOfAllElements(listWebElements));
     }
 
-    public static void waitForElementToContainText(WebElement element) {
+    public void waitForElementToContainText(WebElement element) {
         fluentWait.until(driver -> element.getText().length() > 0);
     }
 

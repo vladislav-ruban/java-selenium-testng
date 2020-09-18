@@ -23,7 +23,9 @@ public class CategoryMobilePhonesPage extends BasePage{
     public CategoryMobilePhonesPage(WebDriver driver) {
         super(driver);
     }
-
+    
+    WaitUtils waitUtils = new WaitUtils(driver);
+    
     @FindBy(xpath = ".//span[@class='breadcrumbs-last']")
     private WebElement categoryName;
 
@@ -45,6 +47,9 @@ public class CategoryMobilePhonesPage extends BasePage{
     @FindBy(xpath = ".//div[@class='price-wrap']//span[@class='price']")
     private List<WebElement> searchResultPrices;
 
+    @FindBy(xpath = "//div[@class='loader-dots-wrap']")
+    private WebElement loaderDotsWrap;
+
     private String manufacturerCheckboxPath = ".//a[@data-filter-type='producer'][@data-producer-alias='%s']";
     private String manufacturerExample;
 
@@ -55,28 +60,25 @@ public class CategoryMobilePhonesPage extends BasePage{
 
     public void filterByManufacturer(ManufacturersMobilePhones manufacturerName) {
         WebElement manufacturerCheckBox = driver.findElement(By.xpath(String.format(manufacturerCheckboxPath, manufacturerName)));
-        WaitUtils.waitForElementToBeVisible(manufacturerCheckBox);
+        waitUtils.waitForElementToBeVisible(manufacturerCheckBox);
         manufacturerExample = manufacturerCheckBox.getText();
         manufacturerCheckBox.click();
     }
 
     public void verifyFilteringByManufacturer() {
-        WaitUtils.waitForAllElementsToBeVisible(modelNameTitles);
+        waitUtils.waitForAllElementsToBeVisible(modelNameTitles);
         List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
         assertThat(modelNamesString, everyItem(containsString(manufacturerExample)));
     }
 
-    @FindBy(xpath = "//div[@class='loader-dots-wrap']")
-    private WebElement loaderDotsWrap;
-
     public void verifyCategoryName(String categoryNameExpected) {
-        WaitUtils.waitForElementToBeVisible(categoryName);
+        waitUtils.waitForElementToBeVisible(categoryName);
         Assert.assertEquals(categoryName.getText(), categoryNameExpected);
     }
 
     public void filterByPriceMinFixed(int minValue) {
         WebElement fixedPriceCheckbox = driver.findElement(By.xpath(String.format(fixedPriceCheckboxMinPath, minValue)));
-        WaitUtils.waitForElementToBeVisible(fixedPriceCheckbox);
+        waitUtils.waitForElementToBeVisible(fixedPriceCheckbox);
         fixedPriceExample = minValue;
         fixedPriceMinOrMax = Extremum.min;
         fixedPriceCheckbox.click();
@@ -84,16 +86,16 @@ public class CategoryMobilePhonesPage extends BasePage{
 
     public void filterByPriceMaxFixed(int maxValue) {
         WebElement fixedPriceCheckbox = driver.findElement(By.xpath(String.format(fixedPriceCheckboxMaxPath, maxValue)));
-        WaitUtils.waitForElementToBeVisible(fixedPriceCheckbox);
+        waitUtils.waitForElementToBeVisible(fixedPriceCheckbox);
         fixedPriceExample = maxValue;
         fixedPriceMinOrMax = Extremum.max;
         fixedPriceCheckbox.click();
     }
 
     public void verifyFilteringByPriceFixed() {
-        WaitUtils.waitFluentlyForElementToBeVisible(loaderDotsWrap);
-        WaitUtils.waitFluentlyForElementToBeInvisible(loaderDotsWrap);
-        WaitUtils.waitForElementToBeVisible(appliedFiltersTitle);
+        waitUtils.waitFluentlyForElementToBeVisible(loaderDotsWrap);
+        waitUtils.waitFluentlyForElementToBeInvisible(loaderDotsWrap);
+        waitUtils.waitForElementToBeVisible(appliedFiltersTitle);
         switch(fixedPriceMinOrMax) {
             case min -> assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(greaterThanOrEqualTo(fixedPriceExample)));
             case max -> assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(lessThanOrEqualTo(fixedPriceExample)));
@@ -101,16 +103,16 @@ public class CategoryMobilePhonesPage extends BasePage{
     }
 
     public void filterByPriceInput(String minPrice, String maxPrice) {
-        WaitUtils.waitForElementToBeClickable(minPriceInput);
-        WaitUtils.waitForElementToBeClickable(maxPriceInput);
+        waitUtils.waitForElementToBeClickable(minPriceInput);
+        waitUtils.waitForElementToBeClickable(maxPriceInput);
         typeToInput(minPriceInput, minPrice);
         typeToInput(maxPriceInput, maxPrice);
         inputPriceOKButton.click();
     }
 
     public void verifyFilteringByPriceInput(String minPrice, String maxPrice) {
-        WaitUtils.waitForURLToContain(minPrice);
-        WaitUtils.waitForURLToContain(maxPrice);
+        waitUtils.waitForURLToContain(minPrice);
+        waitUtils.waitForURLToContain(maxPrice);
         int minPriceInt = Integer.parseInt(minPrice);
         int maxPriceInt = Integer.parseInt(maxPrice);
         List<Integer> prices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);

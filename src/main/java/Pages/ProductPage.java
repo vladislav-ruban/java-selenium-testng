@@ -11,11 +11,13 @@ public class ProductPage extends BasePage {
         super(driver);
     }
 
+    WaitUtils waitUtils = new WaitUtils(driver);
+
     @FindBy(xpath = ".//span[contains(@class, 'add-to-wishlist-link')]")
     private WebElement addToWishlistButton;
 
     public void addToWishlist() {
-        WaitUtils.waitForElementToBeClickable(addToWishlistButton);
+        waitUtils.waitForElementToBeClickable(addToWishlistButton);
         Actions action = new Actions(driver);
         action.moveToElement(addToWishlistButton).click().perform();
     }

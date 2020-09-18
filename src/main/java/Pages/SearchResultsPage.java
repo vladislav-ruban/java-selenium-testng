@@ -21,6 +21,8 @@ public class SearchResultsPage extends BasePage {
         super(driver);
     }
 
+    WaitUtils waitUtils = new WaitUtils(driver);
+
     @FindBy(xpath = ".//div[@class='white-wrap']/a[@class='model-name ga_card_mdl_title']")
     private List<WebElement> searchResultTitles;
 
@@ -46,24 +48,24 @@ public class SearchResultsPage extends BasePage {
     private WebElement sortHighToLowButtonActive;
 
     public void verifySearchResults(String searchQuery) {
-        WaitUtils.waitForElementToBeVisible(sortLowToHighButton);
+        waitUtils.waitForElementToBeVisible(sortLowToHighButton);
         List<String> searchResultTitlesString = new ArrayList<>();
         for (WebElement title : searchResultTitles) searchResultTitlesString.add(title.getText().toLowerCase());
         assertThat(searchResultTitlesString, everyItem(containsString(searchQuery)));
     }
 
     public void sortByPriceLowToHigh() {
-        WaitUtils.waitForElementToBeVisible(sortLowToHighButton);
+        waitUtils.waitForElementToBeVisible(sortLowToHighButton);
         sortLowToHighButton.click();
     }
 
     public void sortByPriceHighToLow() {
-        WaitUtils.waitForElementToBeVisible(sortHighToLowButton);
+        waitUtils.waitForElementToBeVisible(sortHighToLowButton);
         sortHighToLowButton.click();
     }
 
     public void verifySortResultsLowToHigh() {
-        WaitUtils.waitForElementToBeVisible(sortLowToHighButtonActive);
+        waitUtils.waitForElementToBeVisible(sortLowToHighButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);
@@ -72,7 +74,7 @@ public class SearchResultsPage extends BasePage {
     }
 
     public void verifySortResultsHighToLow() {
-        WaitUtils.waitForElementToBeVisible(sortHighToLowButtonActive);
+        waitUtils.waitForElementToBeVisible(sortHighToLowButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);
@@ -82,7 +84,7 @@ public class SearchResultsPage extends BasePage {
     }
 
     public void goToFirstResult() {
-        WaitUtils.waitForElementToBeClickable(firstSearchResult);
+        waitUtils.waitForElementToBeClickable(firstSearchResult);
         firstSearchResult.click();
     }
 
