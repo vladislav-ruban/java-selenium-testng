@@ -2,9 +2,11 @@ package Pages;
 
 import Utils.Collectors;
 import Utils.Converters;
+import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -15,9 +17,15 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class SearchResultsPage extends BasePage {
+public class SearchResultsPage {
+
+    WebDriver driver;
+    WaitUtils waitUtils;
+
     public SearchResultsPage(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        waitUtils = new WaitUtils(driver);
     }
 
     @FindBy(xpath = ".//div[@class='white-wrap']/a[@class='model-name ga_card_mdl_title']")
@@ -45,24 +53,24 @@ public class SearchResultsPage extends BasePage {
     private WebElement sortHighToLowButtonActive;
 
     public void verifySearchResults(String searchQuery) {
-        waitForElementToAppear(sortLowToHighButton);
+        waitUtils.waitForElementToBeVisible(sortLowToHighButton);
         List<String> searchResultTitlesString = new ArrayList<>();
         for (WebElement title : searchResultTitles) searchResultTitlesString.add(title.getText().toLowerCase());
         assertThat(searchResultTitlesString, everyItem(containsString(searchQuery)));
     }
 
     public void sortByPriceLowToHigh() {
-        waitForElementToAppear(sortLowToHighButton);
+        waitUtils.waitForElementToBeVisible(sortLowToHighButton);
         sortLowToHighButton.click();
     }
 
     public void sortByPriceHighToLow() {
-        waitForElementToAppear(sortHighToLowButton);
+        waitUtils.waitForElementToBeVisible(sortHighToLowButton);
         sortHighToLowButton.click();
     }
 
     public void verifySortResultsLowToHigh() {
-        waitForElementToAppear(sortLowToHighButtonActive);
+        waitUtils.waitForElementToBeVisible(sortLowToHighButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);
@@ -71,7 +79,7 @@ public class SearchResultsPage extends BasePage {
     }
 
     public void verifySortResultsHighToLow() {
-        waitForElementToAppear(sortHighToLowButtonActive);
+        waitUtils.waitForElementToBeVisible(sortHighToLowButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);
@@ -81,7 +89,7 @@ public class SearchResultsPage extends BasePage {
     }
 
     public void goToFirstResult() {
-        waitForElementToBeClickable(firstSearchResult);
+        waitUtils.waitForElementToBeClickable(firstSearchResult);
         firstSearchResult.click();
     }
 

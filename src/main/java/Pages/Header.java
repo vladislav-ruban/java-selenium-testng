@@ -1,82 +1,88 @@
 package Pages;
 
 import Utils.Converters;
+import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-public class Header extends BasePage {
+public class Header {
+
+    WebDriver driver;
+    WaitUtils waitUtils;
 
     public Header(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        waitUtils = new WaitUtils(driver);
     }
-
-    @FindBy(how = How.XPATH, using = ".//button[@class='close announcement-acb']")
+    
+    @FindBy(xpath = ".//button[@class='close announcement-acb']")
     private WebElement closeAnnouncementButton;
 
-    @FindBy(how = How.XPATH, using = ".//header[@id='site-header']")
+    @FindBy(xpath = ".//header[@id='site-header']")
     private WebElement header;
 
-    @FindBy(how = How.XPATH, using = ".//input[@id='SearchForm_searchPhrase']")
+    @FindBy(xpath = ".//input[@id='SearchForm_searchPhrase']")
     private WebElement searchBar;
 
-    @FindBy(how = How.XPATH, using = ".//a[@class='wishlist-panel-link']")
+    @FindBy(xpath = ".//a[@class='wishlist-panel-link']")
     private WebElement wishlistButton;
 
-    @FindBy(how = How.XPATH, using = ".//span[@class='amount-wish']")
+    @FindBy(xpath = ".//span[@class='amount-wish']")
     private WebElement wishlistPriceLabel;
 
-    @FindBy(how = How.XPATH, using = ".//a[@form-name='login']")
+    @FindBy(xpath = ".//a[@form-name='login']")
     private WebElement loginButton;
 
-    @FindBy(how = How.XPATH, using = ".//button[@class='close announcement-acb']")
+    @FindBy(xpath = ".//button[@class='close announcement-acb']")
     private WebElement closeAdButton;
 
-    @FindBy(how = How.XPATH, using = ".//div[@class='form-content type-login']")
+    @FindBy(xpath = ".//div[@class='form-content type-login']")
     private WebElement loginForm;
 
-    @FindBy(how = How.XPATH, using = ".//input[@name='LoginForm[username]']")
+    @FindBy(xpath = ".//input[@name='LoginForm[username]']")
     private WebElement loginFormEmailInput;
 
-    @FindBy(how = How.XPATH, using = ".//input[@name='LoginForm[password]']")
+    @FindBy(xpath = ".//input[@name='LoginForm[password]']")
     private WebElement loginFormPasswordInput;
 
-    @FindBy(how = How.XPATH, using = ".//div[@class='tab active']//div[@class='title']/span")
+    @FindBy(xpath = ".//div[@class='tab active']//div[@class='title']/span")
     private WebElement emailNotConfirmedMessage;
 
-    @FindBy(how = How.XPATH, using = ".//div[@id='go-tab-userregister']")
+    @FindBy(xpath = ".//div[@id='go-tab-userregister']")
     private WebElement loginFormRegisterTab;
 
-    @FindBy(how = How.XPATH, using = ".//input[@id='RegisterUserFirmForm_user_email']")
+    @FindBy(xpath = ".//input[@id='RegisterUserFirmForm_user_email']")
     private WebElement loginFormRegisterTabEmailInput;
 
-    @FindBy(how = How.XPATH, using = ".//input[@id='user_user_password']")
+    @FindBy(xpath = ".//input[@id='user_user_password']")
     private WebElement loginFormRegisterTabPasswordInput;
 
-    @FindBy(how = How.XPATH, using = ".//a[@data-type='userregister']")
+    @FindBy(xpath = ".//a[@data-type='userregister']")
     private WebElement loginFormRegisterButton;
 
-    @FindBy(how = How.XPATH, using = ".//input[@id='RegisterUserFirmForm_user_email']/following-sibling::div[@xpathlass='error-text']")
+    @FindBy(xpath = ".//input[@id='RegisterUserFirmForm_user_email']/following-sibling::div[@class='error-text']")
     private WebElement loginFormErrorMessageUnderEmail;
 
-    @FindBy(how = How.XPATH, using = ".//input[@id='user_user_password']/following-sibling::div[@class='error-text']")
+    @FindBy(xpath = ".//input[@id='user_user_password']/following-sibling::div[@class='error-text']")
     private WebElement loginFormErrorMessageUnderPassword;
 
     public void closeAnnouncement() {
-        waitForElementToBeClickable(closeAnnouncementButton);
+        waitUtils.waitForElementToBeClickable(closeAnnouncementButton);
         closeAnnouncementButton.click();
     }
 
     public void openLoginForm() {
-        waitForElementToAppear(loginButton);
+        waitUtils.waitForElementToBeClickable(loginButton);
         loginButton.click();
     }
 
     public void loginWithCredentials(String email, String password) {
-        waitForElementToAppear(loginForm);
-        waitForElementToBeClickable(loginFormEmailInput);
+        waitUtils.waitForElementToBeVisible(loginForm);
+        waitUtils.waitForElementToBeClickable(loginFormEmailInput);
         loginFormEmailInput.click();
         loginFormEmailInput.sendKeys(email);
         loginFormPasswordInput.click();
@@ -85,12 +91,12 @@ public class Header extends BasePage {
     }
 
     public void GoToLoginFormRegisterTab() {
-        waitForElementToBeClickable(loginFormRegisterTab);
+        waitUtils.waitForElementToBeClickable(loginFormRegisterTab);
         loginFormRegisterTab.click();
     }
 
     public void registerWithCredentials(String email, String password) {
-        waitForElementToBeClickable(loginFormRegisterTabEmailInput);
+        waitUtils.waitForElementToBeClickable(loginFormRegisterTabEmailInput);
         loginFormRegisterTabEmailInput.click();
         loginFormRegisterTabEmailInput.sendKeys(email);
         loginFormRegisterTabPasswordInput.click();
@@ -104,25 +110,25 @@ public class Header extends BasePage {
     }
 
     public void verifyEmailNotConfirmedMessage(String expectedMessage) {
-        waitForElementToDisappear(loginForm);
-        waitForElementToAppear(emailNotConfirmedMessage);
+        waitUtils.waitForElementToBeInvisible(loginForm);
+        waitUtils.waitForElementToBeVisible(emailNotConfirmedMessage);
         Assert.assertEquals(emailNotConfirmedMessage.getText().toLowerCase(), expectedMessage.toLowerCase());
     }
 
     public void searchFor(String searchQuery) {
-        waitForElementToAppear(searchBar);
+        waitUtils.waitForElementToBeVisible(searchBar);
         searchBar.click();
         searchBar.sendKeys(searchQuery);
         searchBar.submit();
     }
 
     public void openWishlist() {
-        waitForElementToBeClickable(wishlistButton);
+        waitUtils.waitForElementToBeClickable(wishlistButton);
         wishlistButton.click();
     }
 
     public void verifyWishlistPrice(int expectedPrice) {
-        waitForElementToAppear(wishlistPriceLabel);
+        waitUtils.waitForElementToBeVisible(wishlistPriceLabel);
         int wishlistPrice = Converters.stringCutAndParseToInt(wishlistPriceLabel.getText());
         Assert.assertEquals(wishlistPrice, expectedPrice);
     }
