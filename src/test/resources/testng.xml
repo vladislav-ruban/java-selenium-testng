@@ -22,57 +22,13 @@
     <test name="LoginAndRegistrationChrome">
         <parameter name="browser" value="CHROME"/>
         <classes>
-            <class name="LoginAndRegistrationTest"/>
-        </classes>
-    </test>
+            <class name="LoginAndRegistrationTest">
+                <methods>
+                    <include name="loginWithValidCredentials">
+                    </include>
+                </methods>
 
-    <test name="SearchAndSortingEdge">
-        <parameter name="browser" value="EDGE"/>
-        <classes>
-            <class name="SearchSortingTest"/>
-        </classes>
-    </test>
-    <test name="GoodsActionsFunctionalityEdge">
-        <parameter name="browser" value="EDGE"/>
-        <classes>
-            <class name="ProductActionsFunctionalityTest"/>
-        </classes>
-    </test>
-    <test name="CategoryEdge">
-        <parameter name="browser" value="EDGE"/>
-        <classes>
-            <class name="CategorySelectionAndFilteringTest"/>
-        </classes>
-    </test>
-    <test name="LoginAndRegistrationEdge">
-        <parameter name="browser" value="EDGE"/>
-        <classes>
-            <class name="LoginAndRegistrationTest"/>
-        </classes>
-    </test>
-
-    <test name="SearchAndSortingFirefox">
-        <parameter name="browser" value="FIREFOX"/>
-        <classes>
-            <class name="SearchSortingTest"/>
-        </classes>
-    </test>
-    <test name="GoodsActionsFunctionalityFirefox">
-        <parameter name="browser" value="FIREFOX"/>
-        <classes>
-            <class name="ProductActionsFunctionalityTest"/>
-        </classes>
-    </test>
-    <test name="CategoryFirefox">
-        <parameter name="browser" value="FIREFOX"/>
-        <classes>
-            <class name="CategorySelectionAndFilteringTest"/>
-        </classes>
-    </test>
-    <test name="LoginAndRegistrationFirefox">
-        <parameter name="browser" value="FIREFOX"/>
-        <classes>
-            <class name="LoginAndRegistrationTest"/>
+            </class>
         </classes>
     </test>
 </suite>
