@@ -1,10 +1,11 @@
 import Pages.Header;
 import Pages.SearchResultsPage;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class SearchSortingTest extends BaseTest {
-    private final String searchQuery = "dell precision";
+    private final String searchQuery = "dell";
 
     Header header;
     SearchResultsPage searchResultsPage;
@@ -15,22 +16,25 @@ public class SearchSortingTest extends BaseTest {
         searchResultsPage = new SearchResultsPage(getDriver());
     }
 
+    @BeforeMethod
+    public void search() {
+        header.closeAnnouncement();
+        header.searchFor(searchQuery);
+    }
+
     @Test
     public void searchTest() {
-        header.searchFor(searchQuery);
         searchResultsPage.verifySearchResults(searchQuery);
     }
 
     @Test
     public void sortingLowToHighTest() {
-        header.searchFor(searchQuery);
         searchResultsPage.sortByPriceLowToHigh();
         searchResultsPage.verifySortResultsLowToHigh();
     }
 
     @Test
     public void sortingHighToLowTest() {
-        header.searchFor(searchQuery);
         searchResultsPage.sortByPriceHighToLow();
         searchResultsPage.verifySortResultsHighToLow();
     }

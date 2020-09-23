@@ -1,9 +1,12 @@
 package Pages;
 
+import Dto.UserCredentialsDto;
 import Utils.Converters;
 import Utils.WaitUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -13,10 +16,13 @@ public class Header {
     WebDriver driver;
     WaitUtils waitUtils;
 
+    Actions actions;
+
     public Header(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
         waitUtils = new WaitUtils(driver);
+        actions = new Actions(driver);
     }
     
     @FindBy(xpath = ".//button[@class='close announcement-acb']")
@@ -34,14 +40,17 @@ public class Header {
     @FindBy(xpath = ".//span[@class='amount-wish']")
     private WebElement wishlistPriceLabel;
 
-    @FindBy(xpath = ".//a[@form-name='login']")
+    @FindBy(xpath = ".//div[@class='link for-login']")
     private WebElement loginButton;
 
     @FindBy(xpath = ".//button[@class='close announcement-acb']")
     private WebElement closeAdButton;
 
-    @FindBy(xpath = ".//div[@class='form-content type-login']")
+    @FindBy(xpath = ".//div[@id='user-popup-forms']")
     private WebElement loginForm;
+
+    @FindBy(xpath = ".//div[@class='tab active']")
+    private WebElement loginFormActiveTab;
 
     @FindBy(xpath = ".//input[@name='LoginForm[username]']")
     private WebElement loginFormEmailInput;
@@ -70,23 +79,43 @@ public class Header {
     @FindBy(xpath = ".//input[@id='user_user_password']/following-sibling::div[@class='error-text']")
     private WebElement loginFormErrorMessageUnderPassword;
 
+    @FindBy(xpath = ".//a[@id='header-user-link']")
+    private WebElement userButton;
+
+    @FindBy(xpath = ".//a[@class='i-profile']")
+    private WebElement userPanelButton;
+
+    @FindBy(xpath = ".//a['i-logout']")
+    private WebElement userLogoutButton;
+
+    private String removeProductFromWishlistButtonPath = ".//div[@class='local-wish-item']/a[contains(text(), '%s')]/../span[contains(@class, 'remove')]";
+
     public void closeAnnouncement() {
         waitUtils.waitForElementToBeClickable(closeAnnouncementButton);
-        closeAnnouncementButton.click();
+        actions.moveToElement(closeAnnouncementButton).click(closeAnnouncementButton).perform();
+    }
+
+    public void removeFromWishlist(String productName) {
+        WebElement removeProductFromWishlistButton =
+                driver.findElement(By.xpath(String.format(removeProductFromWishlistButtonPath, productName)));
+        waitUtils.waitForElementToBeClickable(removeProductFromWishlistButton);
+        removeProductFromWishlistButton.click();
     }
 
     public void openLoginForm() {
         waitUtils.waitForElementToBeClickable(loginButton);
         loginButton.click();
+        waitUtils.waitForElementPresenceBy(By.xpath(".//div[@role='dialog']"));
     }
 
     public void loginWithCredentials(String email, String password) {
-        waitUtils.waitForElementToBeVisible(loginForm);
         waitUtils.waitForElementToBeClickable(loginFormEmailInput);
         loginFormEmailInput.click();
         loginFormEmailInput.sendKeys(email);
         loginFormPasswordInput.click();
         loginFormPasswordInput.sendKeys(password);
+        UserCredentialsDto.setEmail(email);
+        UserCredentialsDto.setPassword(password);
         loginFormPasswordInput.submit();
     }
 
@@ -109,17 +138,34 @@ public class Header {
         Assert.assertEquals(loginFormErrorMessageUnderPassword.getText(), expectedMessageUnderPassword);
     }
 
-    public void verifyEmailNotConfirmedMessage(String expectedMessage) {
-        waitUtils.waitForElementToBeInvisible(loginForm);
-        waitUtils.waitForElementToBeVisible(emailNotConfirmedMessage);
-        Assert.assertEquals(emailNotConfirmedMessage.getText().toLowerCase(), expectedMessage.toLowerCase());
+    public void verifyEmailNotConfirmedMessage(String expected) {
+        waitUtils.waitForElementPresenceBy(By.xpath(".//div[@id='tab-not-confirmed']"));
+        String actualMessage = emailNotConfirmedMessage.getText().toLowerCase();
+        String expectedMessage = expected.toLowerCase();
+        Assert.assertEquals(actualMessage, expectedMessage);
     }
 
     public void searchFor(String searchQuery) {
-        waitUtils.waitForElementToBeVisible(searchBar);
+        waitUtils.waitForElementToBeClickable(searchBar);
         searchBar.click();
         searchBar.sendKeys(searchQuery);
         searchBar.submit();
+    }
+
+    public void openUserContext() {
+        waitUtils.waitForElementToBeClickable(userButton);
+        userButton.click();
+    }
+
+    public void openUserpanel() {
+        openUserContext();
+        waitUtils.waitForElementToBeClickable(userPanelButton);
+        userPanelButton.click();
+    }
+
+    public void logOut() {
+        openUserContext();
+        actions.moveToElement(userLogoutButton).click(userLogoutButton).perform();
     }
 
     public void openWishlist() {

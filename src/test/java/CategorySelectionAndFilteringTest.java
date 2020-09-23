@@ -3,6 +3,7 @@ import Pages.CategoryMobilePhonesPage;
 import Pages.Header;
 import Pages.MainPage;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class CategorySelectionAndFilteringTest extends BaseTest {
@@ -22,31 +23,32 @@ public class CategorySelectionAndFilteringTest extends BaseTest {
         header = new Header(getDriver());
     }
 
-    @Test
-    public void categorySelectionTest() {
+    @BeforeMethod
+    public void goToCategory() {
         header.closeAnnouncement();
         mainPage.goToCategoryMobilePhones();
+        header.closeAnnouncement();
+    }
+
+    @Test
+    public void categorySelectionTest() {
         categoryMobilePhonesPage.verifyCategoryName(categoryNameExpected);
     }
 
     @Test
     public void manufacturerFilterTest() {
-        categorySelectionTest();
         categoryMobilePhonesPage.filterByManufacturer(ManufacturersMobilePhones.apple);
         categoryMobilePhonesPage.verifyFilteringByManufacturer();
     }
 
     @Test
     public void fixedPriceFilterTest() {
-        categorySelectionTest();
-        categoryMobilePhonesPage.verifyCategoryName(categoryNameExpected);
         categoryMobilePhonesPage.filterByPriceMaxFixed(maxPriceFixed);
         categoryMobilePhonesPage.verifyFilteringByPriceFixed();
     }
 
     @Test
     public void inputPriceFilterTest() {
-        categorySelectionTest();
         categoryMobilePhonesPage.filterByPriceInput(minPrice, maxPrice);
         categoryMobilePhonesPage.verifyFilteringByPriceInput(minPrice, maxPrice);
     }

@@ -1,17 +1,18 @@
-import Pages.Header;
-import Pages.MainPage;
-import Pages.ProductPage;
-import Pages.SearchResultsPage;
+import Dto.ProductNameDto;
+import Pages.*;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ProductActionsFunctionalityTest extends BaseTest {
-    private final String searchQuery = "dell precision";
+    private final String searchQuery = "dell";
+    private final String productName = "Apple iPhone 7 Plus 128Gb";
 
     Header header;
     MainPage mainPage;
     SearchResultsPage searchResultsPage;
     ProductPage productPage;
+    CategoryMobilePhonesPage categoryMobilePhonesPage;
 
     @BeforeClass
     public void initializePage() {
@@ -19,6 +20,12 @@ public class ProductActionsFunctionalityTest extends BaseTest {
         mainPage = new MainPage(getDriver());
         searchResultsPage = new SearchResultsPage(getDriver());
         productPage = new ProductPage(getDriver());
+        categoryMobilePhonesPage = new CategoryMobilePhonesPage(getDriver());
+    }
+
+    @BeforeMethod
+    public void closeAnnouncement() {
+        header.closeAnnouncement();
     }
 
     @Test
@@ -30,5 +37,13 @@ public class ProductActionsFunctionalityTest extends BaseTest {
         productPage.addToWishlist();
         header.openWishlist();
         header.verifyWishlistPrice(price);
+    }
+
+    @Test
+    public void addToWishlistFromResultsTest() {
+        header.searchFor("Apple iPhone 7 Plus 128Gb");
+        searchResultsPage.addProductToWishlist(productName);
+        header.openWishlist();
+        header.removeFromWishlist(ProductNameDto.getName());
     }
 }

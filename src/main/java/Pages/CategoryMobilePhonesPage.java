@@ -1,5 +1,6 @@
 package Pages;
 
+import Dto.ProductNameDto;
 import Enums.Extremum;
 import Enums.ManufacturersMobilePhones;
 import Utils.Collectors;
@@ -54,6 +55,9 @@ public class CategoryMobilePhonesPage {
     @FindBy(xpath = ".//div[@class='loader-dots-wrap']")
     private WebElement loaderDotsWrap;
 
+    @FindBy(xpath = ".//div[@class='wishlist-popunder active']")
+    private WebElement popunderWishListActive;
+
     private String manufacturerCheckboxPath = ".//a[@data-filter-type='producer'][@data-producer-alias='%s']";
     private String manufacturerExample;
 
@@ -61,6 +65,18 @@ public class CategoryMobilePhonesPage {
     private String fixedPriceCheckboxMinPath = ".//a[contains(@data-filter-value, '\"price[min]\":\"%s\"')]";
     private int fixedPriceExample;
     private Extremum fixedPriceMinOrMax;
+
+    private String addToWishlistButtonPath = "//a[text()='%s']/../../span[contains(@class, 'add-to-wishlist-link ')]";
+    private String productTitlePath = ".//a[text()='%s']";
+
+    public void addProductToWishlist(String productName) {
+        waitUtils.waitForElementToBeVisible(categoryName);
+        WebElement addToWishlistButton = driver.findElement(By.xpath(String.format(addToWishlistButtonPath, productName)));
+        ProductNameDto.setName(productName);
+        waitUtils.waitForElementToBeClickable(addToWishlistButton);
+        addToWishlistButton.click();
+        waitUtils.waitForElementToBeVisible(popunderWishListActive);
+    }
 
     public void filterByManufacturer(ManufacturersMobilePhones manufacturerName) {
         WebElement manufacturerCheckBox = driver.findElement(By.xpath(String.format(manufacturerCheckboxPath, manufacturerName)));
@@ -89,17 +105,19 @@ public class CategoryMobilePhonesPage {
     }
 
     public void filterByPriceMaxFixed(int maxValue) {
+        waitUtils.waitForElementToBeVisible(searchResultPrices.get(0));
         WebElement fixedPriceCheckbox = driver.findElement(By.xpath(String.format(fixedPriceCheckboxMaxPath, maxValue)));
         waitUtils.waitForElementToBeVisible(fixedPriceCheckbox);
         fixedPriceExample = maxValue;
         fixedPriceMinOrMax = Extremum.max;
         fixedPriceCheckbox.click();
+//        waitUtils.waitForElementToBeVisible(loaderDotsWrap);
+//        waitUtils.waitForElementToBeInvisible(loaderDotsWrap);
     }
 
     public void verifyFilteringByPriceFixed() {
-        waitUtils.waitForElementToBeVisible(loaderDotsWrap);
-        waitUtils.waitForElementToBeInvisible(loaderDotsWrap);
         waitUtils.waitForElementToBeVisible(appliedFiltersTitle);
+        waitUtils.waitForElementsToBeVisible(searchResultPrices);
         switch(fixedPriceMinOrMax) {
             case min -> assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(greaterThanOrEqualTo(fixedPriceExample)));
             case max -> assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(lessThanOrEqualTo(fixedPriceExample)));

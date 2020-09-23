@@ -1,8 +1,10 @@
 package Pages;
 
+import Dto.ProductNameDto;
 import Utils.Collectors;
 import Utils.Converters;
 import Utils.WaitUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -52,6 +54,19 @@ public class SearchResultsPage {
     @FindBy(xpath = ".//a[@class='link ga_cat_sort hight-to-low active']")
     private WebElement sortHighToLowButtonActive;
 
+    @FindBy(xpath = ".//div[@class='wishlist-popunder active']")
+    private WebElement popunderWishListActive;
+
+    private String addToWishlistButtonPath = "//a[text()='%s']/../../span[contains(@class, 'add-to-wishlist-link ')]";
+
+    public void addProductToWishlist(String productName) {
+        WebElement addToWishlistButton = driver.findElement(By.xpath(String.format(addToWishlistButtonPath, productName)));
+        ProductNameDto.setName(productName);
+        waitUtils.waitForElementToBeClickable(addToWishlistButton);
+        addToWishlistButton.click();
+        waitUtils.waitForElementToBeVisible(popunderWishListActive);
+    }
+
     public void verifySearchResults(String searchQuery) {
         waitUtils.waitForElementToBeVisible(sortLowToHighButton);
         List<String> searchResultTitlesString = new ArrayList<>();
@@ -65,7 +80,7 @@ public class SearchResultsPage {
     }
 
     public void sortByPriceHighToLow() {
-        waitUtils.waitForElementToBeVisible(sortHighToLowButton);
+        waitUtils.waitForElementToBeClickable(sortHighToLowButton);
         sortHighToLowButton.click();
     }
 
