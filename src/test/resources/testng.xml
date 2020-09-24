@@ -22,13 +22,7 @@
     <test name="LoginAndRegistrationChrome">
         <parameter name="browser" value="CHROME"/>
         <classes>
-            <class name="LoginAndRegistrationTest">
-                <methods>
-                    <include name="loginWithValidCredentials">
-                    </include>
-                </methods>
-
-            </class>
+            <class name="LoginAndRegistrationTest"/>
         </classes>
     </test>
 </suite>
