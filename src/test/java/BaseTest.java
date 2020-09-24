@@ -13,7 +13,7 @@ public class BaseTest {
     public void setUp(@Optional("CHROME") Browsers browser) {
         driver = DriverFactory.getBrowser(browser);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     }
 
     @AfterTest(alwaysRun = true)
