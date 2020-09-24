@@ -1,10 +1,7 @@
 import DriverFactory.DriverFactory;
 import Enums.Browsers;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,7 +10,7 @@ public class BaseTest {
 
     @BeforeTest
     @Parameters({"browser"})
-    public void setUp(Browsers browser) {
+    public void setUp(@Optional("CHROME") Browsers browser) {
         driver = DriverFactory.getBrowser(browser);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
