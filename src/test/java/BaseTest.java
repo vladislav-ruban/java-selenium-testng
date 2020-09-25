@@ -6,7 +6,7 @@ import org.testng.annotations.*;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    private WebDriver driver;
+    protected WebDriver driver;
 
     @BeforeTest
     @Parameters({"browser"})
@@ -16,17 +16,13 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     }
 
-    @AfterTest(alwaysRun = true)
-    public void tearDown() {
-        driver.quit();
-    }
-
     @BeforeMethod
     public void openPage() {
         driver.get("https://price.ua/");
     }
 
-    public WebDriver getDriver() {
-        return driver;
+    @AfterTest(alwaysRun = true)
+    public void tearDown() {
+        driver.quit();
     }
 }

@@ -1,6 +1,7 @@
 import Dto.ProductNameDto;
-import Pages.*;
-import org.testng.annotations.BeforeClass;
+import Pages.Header;
+import Pages.ProductPage;
+import Pages.SearchResultsPage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -8,32 +9,21 @@ public class ProductActionsFunctionalityTest extends BaseTest {
     private final String searchQuery = "dell";
     private final String productName = "Apple iPhone 7 Plus 128Gb";
 
-    Header header;
-    MainPage mainPage;
-    SearchResultsPage searchResultsPage;
-    ProductPage productPage;
-    CategoryMobilePhonesPage categoryMobilePhonesPage;
-
-    @BeforeClass
-    public void initializePage() {
-        header = new Header(getDriver());
-        mainPage = new MainPage(getDriver());
-        searchResultsPage = new SearchResultsPage(getDriver());
-        productPage = new ProductPage(getDriver());
-        categoryMobilePhonesPage = new CategoryMobilePhonesPage(getDriver());
-    }
-
     @BeforeMethod
     public void closeAnnouncement() {
+        Header header = new Header(driver);
         header.closeAnnouncement();
     }
 
     @Test
     public void addToWishlistTest() {
+        Header header = new Header(driver);
         header.searchFor(searchQuery);
+        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         searchResultsPage.verifySearchResults(searchQuery);
         int price = searchResultsPage.getFirstResultPrice();
         searchResultsPage.goToFirstResult();
+        ProductPage productPage = new ProductPage(driver);
         productPage.addToWishlist();
         header.openWishlist();
         header.verifyWishlistPrice(price);
@@ -41,7 +31,9 @@ public class ProductActionsFunctionalityTest extends BaseTest {
 
     @Test
     public void addToWishlistFromResultsTest() {
+        Header header = new Header(driver);
         header.searchFor("Apple iPhone 7 Plus 128Gb");
+        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         searchResultsPage.addProductToWishlist(productName);
         header.openWishlist();
         header.removeFromWishlist(ProductNameDto.getName());
