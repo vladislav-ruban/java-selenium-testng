@@ -2,10 +2,15 @@ import Pages.Header;
 import Pages.SearchResultsPage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class SearchSortingTest extends BaseTest {
-    private final String searchQuery = "dell";
+
+    @DataProvider(name="data-provider")
+    public Object[][] dataProviderMethod() {
+        return new Object[][] { { "dell" } };
+    }
 
     Header header;
     SearchResultsPage searchResultsPage;
@@ -16,25 +21,28 @@ public class SearchSortingTest extends BaseTest {
         searchResultsPage = new SearchResultsPage(getDriver());
     }
 
+
     @BeforeMethod
-    public void search() {
+    public void closeAnnouncement() {
         header.closeAnnouncement();
-        header.searchFor(searchQuery);
     }
 
-    @Test
-    public void searchTest() {
+    @Test(dataProvider = "data-provider")
+    public void searchTest(String searchQuery) {
+        header.searchFor(searchQuery);
         searchResultsPage.verifySearchResults(searchQuery);
     }
 
-    @Test
-    public void sortingLowToHighTest() {
+    @Test(dataProvider = "data-provider")
+    public void sortingLowToHighTest(String searchQuery) {
+        header.searchFor(searchQuery);
         searchResultsPage.sortByPriceLowToHigh();
         searchResultsPage.verifySortResultsLowToHigh();
     }
 
-    @Test
-    public void sortingHighToLowTest() {
+    @Test(dataProvider = "data-provider")
+    public void sortingHighToLowTest(String searchQuery) {
+        header.searchFor(searchQuery);
         searchResultsPage.sortByPriceHighToLow();
         searchResultsPage.verifySortResultsHighToLow();
     }
