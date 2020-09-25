@@ -16,7 +16,7 @@ public class WaitUtils {
 
     WebDriver driver;
     private WebDriverWait wait;
-    private Wait<WebDriver> fluentWait;
+    private Wait fluentWait;
 
     public WaitUtils(WebDriver driver) {
         this.driver = driver;
