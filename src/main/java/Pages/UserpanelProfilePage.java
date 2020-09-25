@@ -1,22 +1,21 @@
 package Pages;
 
 import Dto.UserCredentialsDto;
-import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-public class UserpanelProfilePage {
-
-    WebDriver driver;
-    WaitUtils waitUtils;
+public class UserpanelProfilePage extends BasePage {
 
     public UserpanelProfilePage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        waitUtils = new WaitUtils(driver);
+        super(driver);
+        initialWait(driver);
+    }
+
+    @Override
+    public void initialWait(WebDriver driver) {
+        waitUtils.waitForElementToBeVisible(usernameLabel);
     }
 
     @FindBy(xpath = ".//div[@class='user-name']")

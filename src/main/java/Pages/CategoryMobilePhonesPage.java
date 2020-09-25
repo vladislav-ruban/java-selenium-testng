@@ -4,12 +4,10 @@ import Dto.ProductNameDto;
 import Enums.Extremum;
 import Enums.ManufacturersMobilePhones;
 import Utils.Collectors;
-import Utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import java.util.List;
@@ -20,17 +18,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
-public class CategoryMobilePhonesPage {
-
-    WebDriver driver;
-    WaitUtils waitUtils;
+public class CategoryMobilePhonesPage extends BasePage{
 
     public CategoryMobilePhonesPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        waitUtils = new WaitUtils(driver);
+        super(driver);
+        initialWait(driver);
     }
-    
+
+    @Override
+    public void initialWait(WebDriver driver) {
+        waitUtils.waitForElementToBeVisible(caseTypeMonoblock);
+    }
+
+    @FindBy(xpath = "//li/a[contains(text(), 'моноблок')]")
+    private WebElement caseTypeMonoblock;
+
     @FindBy(xpath = ".//span[@class='breadcrumbs-last']")
     private WebElement categoryName;
 

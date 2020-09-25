@@ -1,22 +1,25 @@
 package Pages;
 
-import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-public class MainPage {
-    WebDriver driver;
-    WaitUtils waitUtils;
+public class MainPage extends BasePage {
 
     public MainPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        waitUtils = new WaitUtils(driver);
+        super(driver);
+        initialWait(driver);
     }
-    
+
+    @Override
+    public void initialWait(WebDriver driver) {
+        waitUtils.waitForElementToBeVisible(productsAndAlcoholTitle);
+    }
+
+    @FindBy(xpath = "//div[@class='blue-title-with-grey-line']")
+    private WebElement productsAndAlcoholTitle;
+
     @FindBy(xpath = ".//a[@class='ga_cats_lateral'][@data-tracker-cid='6']")
     private WebElement categoryMobileConnectionButton;
 
