@@ -1,7 +1,5 @@
 import Pages.Header;
-import Pages.MainPage;
 import Pages.UserpanelProfilePage;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -13,33 +11,26 @@ public class LoginAndRegistrationTest extends BaseTest {
     private final String expectedMessageUnderEmail = "Необходимо заполнить поле «Адрес электронной почты».";
     private final String expectedMessageUnderPassword = "Необходимо заполнить поле «Пароль».";
 
-    Header header;
-    MainPage mainPage;
-    UserpanelProfilePage userpanelProfilePage;
-
-    @BeforeClass
-    public void initializePage() {
-        header = new Header(getDriver());
-        mainPage = new MainPage(getDriver());
-        userpanelProfilePage = new UserpanelProfilePage(getDriver());
-    }
-
     @BeforeMethod
     public void openLoginForm() {
+        Header header = new Header(driver);
         header.closeAnnouncement();
         header.openLoginForm();
     }
 
     @Test
     public void loginWithUnconfirmedEmail() {
+        Header header = new Header(driver);
         header.loginWithCredentials(emailUnconfirmed, password);
         header.verifyEmailNotConfirmedMessage(expectedMessage);
     }
 
     @Test
     public void loginWithValidCredentials() {
+        Header header = new Header(driver);
         header.loginWithCredentials(emailRegistered, password);
         header.openUserpanel();
+        UserpanelProfilePage userpanelProfilePage = new UserpanelProfilePage(driver);
         userpanelProfilePage.checkIfYouLogged();
         header.closeAnnouncement();
         header.logOut();
@@ -47,7 +38,7 @@ public class LoginAndRegistrationTest extends BaseTest {
 
     @Test
     public void registrationWithEmptyFields() {
-//        header.GoToLoginFormRegisterTab();
+        Header header = new Header(driver);
         header.registerWithCredentials("","");
         header.verifyErrorMessages(expectedMessageUnderEmail, expectedMessageUnderPassword);
     }

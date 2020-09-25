@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
 public class BaseTest {
-    private WebDriver driver;
+    protected WebDriver driver;
 
     @BeforeTest
     @Parameters({"browser"})
@@ -12,11 +12,6 @@ public class BaseTest {
         driver = DriverFactory.getBrowser(browser);
         driver.manage().window().maximize();
         //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-    }
-
-    @AfterTest(alwaysRun = true)
-    public void tearDown() {
-        driver.quit();
     }
 
     @BeforeMethod
@@ -29,7 +24,8 @@ public class BaseTest {
         driver.manage().deleteAllCookies();
     }
 
-    public WebDriver getDriver() {
-        return driver;
+    @AfterTest(alwaysRun = true)
+    public void tearDown() {
+        driver.quit();
     }
 }
