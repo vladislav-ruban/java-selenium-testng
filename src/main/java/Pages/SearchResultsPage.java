@@ -59,7 +59,9 @@ public class SearchResultsPage extends BasePage {
     private String addToWishlistButtonPath = "//a[text()='%s']/../../span[contains(@class, 'add-to-wishlist-link ')]";
 
     public void addProductToWishlist(String productName) {
-        WebElement addToWishlistButton = driver.findElement(By.xpath(String.format(addToWishlistButtonPath, productName)));
+        String addToWishlistButtonXpath = String.format(addToWishlistButtonPath, productName);
+        waitUtils.waitForElementPresenceBy(By.xpath(addToWishlistButtonXpath));
+        WebElement addToWishlistButton = driver.findElement(By.xpath(addToWishlistButtonXpath));
         ProductNameDto.setName(productName);
         waitUtils.waitForElementToBeClickable(addToWishlistButton);
         addToWishlistButton.click();

@@ -167,7 +167,7 @@ public class Header extends BasePage {
 
     public void openUserpanel() {
         openUserContext();
-        //waitUtils.waitForElementToBeClickable(userPanelButton);
+        waitUtils.waitForElementToBeClickable(userPanelButton);
         userPanelButton.click();
     }
 

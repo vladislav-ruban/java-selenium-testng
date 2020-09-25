@@ -59,5 +59,9 @@ public class WaitUtils {
     public void waitForElementPresenceBy(By locator) {
         fluentWait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
+
+    public void waitForElementsPresenceBy(By locator) {
+        fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+    }
 }
 

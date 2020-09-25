@@ -73,7 +73,9 @@ public class CategoryMobilePhonesPage extends BasePage{
 
     public void addProductToWishlist(String productName) {
         waitUtils.waitForElementToBeVisible(categoryName);
-        WebElement addToWishlistButton = driver.findElement(By.xpath(String.format(addToWishlistButtonPath, productName)));
+        String addToWishlistButtonXpath = String.format(addToWishlistButtonPath, productName);
+        waitUtils.waitForElementPresenceBy(By.xpath(addToWishlistButtonXpath));
+        WebElement addToWishlistButton = driver.findElement(By.xpath(addToWishlistButtonXpath));
         ProductNameDto.setName(productName);
         waitUtils.waitForElementToBeClickable(addToWishlistButton);
         addToWishlistButton.click();
@@ -81,7 +83,9 @@ public class CategoryMobilePhonesPage extends BasePage{
     }
 
     public void filterByManufacturer(ManufacturersMobilePhones manufacturerName) {
-        WebElement manufacturerCheckBox = driver.findElement(By.xpath(String.format(manufacturerCheckboxPath, manufacturerName)));
+        String manufacturerCheckboxXpath = String.format(manufacturerCheckboxPath, manufacturerName);
+        waitUtils.waitForElementPresenceBy(By.xpath(manufacturerCheckboxXpath));
+        WebElement manufacturerCheckBox = driver.findElement(By.xpath(manufacturerCheckboxXpath));
         waitUtils.waitForElementToBeVisible(manufacturerCheckBox);
         manufacturerExample = manufacturerCheckBox.getText();
         manufacturerCheckBox.click();
@@ -89,6 +93,7 @@ public class CategoryMobilePhonesPage extends BasePage{
 
     public void verifyFilteringByManufacturer() {
         waitUtils.waitForElementsToBeVisible(modelNameTitles);
+        waitUtils.waitForElementsPresenceBy(By.xpath(".//a[@class='model-name ga_card_mdl_title']"));
         List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
         assertThat(modelNamesString, everyItem(containsString(manufacturerExample)));
     }
@@ -99,7 +104,9 @@ public class CategoryMobilePhonesPage extends BasePage{
     }
 
     public void filterByPriceMinFixed(int minValue) {
-        WebElement fixedPriceCheckbox = driver.findElement(By.xpath(String.format(fixedPriceCheckboxMinPath, minValue)));
+        String fixedPriceCheckboxXpath = String.format(fixedPriceCheckboxMinPath, minValue);
+        waitUtils.waitForElementPresenceBy(By.xpath(fixedPriceCheckboxXpath));
+        WebElement fixedPriceCheckbox = driver.findElement(By.xpath(fixedPriceCheckboxXpath));
         waitUtils.waitForElementToBeVisible(fixedPriceCheckbox);
         fixedPriceExample = minValue;
         fixedPriceMinOrMax = Extremum.min;
@@ -108,7 +115,9 @@ public class CategoryMobilePhonesPage extends BasePage{
 
     public void filterByPriceMaxFixed(int maxValue) {
         waitUtils.waitForElementToBeVisible(searchResultPrices.get(0));
-        WebElement fixedPriceCheckbox = driver.findElement(By.xpath(String.format(fixedPriceCheckboxMaxPath, maxValue)));
+        String fixedPriceCheckboxXpath = String.format(fixedPriceCheckboxMaxPath, maxValue);
+        waitUtils.waitForElementPresenceBy(By.xpath(fixedPriceCheckboxXpath));
+        WebElement fixedPriceCheckbox = driver.findElement(By.xpath(fixedPriceCheckboxXpath));
         waitUtils.waitForElementToBeVisible(fixedPriceCheckbox);
         fixedPriceExample = maxValue;
         fixedPriceMinOrMax = Extremum.max;
