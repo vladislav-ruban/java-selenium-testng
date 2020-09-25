@@ -1,9 +1,6 @@
 package Utils;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -14,7 +11,7 @@ import java.util.List;
 
 public class WaitUtils {
 
-    private final int TIMEOUT = 10;
+    private final int TIMEOUT = 15;
     private final int POLLING = 100;
 
     WebDriver driver;
@@ -27,7 +24,8 @@ public class WaitUtils {
         fluentWait = new FluentWait(driver)
                 .withTimeout(Duration.ofSeconds(TIMEOUT))
                 .pollingEvery(Duration.ofMillis(POLLING))
-                .ignoring(StaleElementReferenceException.class);
+                .ignoring(StaleElementReferenceException.class)
+                .ignoring(NoSuchElementException.class);
     }
 
     public void waitForElementToBeClickable(WebElement element) {

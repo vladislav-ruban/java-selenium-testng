@@ -85,7 +85,6 @@ public class SearchResultsPage {
     }
 
     public void verifySortResultsLowToHigh() {
-        waitUtils.waitForElementToBeVisible(sortLowToHighButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);
@@ -94,7 +93,6 @@ public class SearchResultsPage {
     }
 
     public void verifySortResultsHighToLow() {
-        waitUtils.waitForElementToBeVisible(sortHighToLowButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);

@@ -47,7 +47,7 @@ public class LoginAndRegistrationTest extends BaseTest {
 
     @Test
     public void registrationWithEmptyFields() {
-        header.GoToLoginFormRegisterTab();
+//        header.GoToLoginFormRegisterTab();
         header.registerWithCredentials("","");
         header.verifyErrorMessages(expectedMessageUnderEmail, expectedMessageUnderPassword);
     }

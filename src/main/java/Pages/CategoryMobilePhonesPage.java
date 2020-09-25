@@ -111,8 +111,6 @@ public class CategoryMobilePhonesPage {
         fixedPriceExample = maxValue;
         fixedPriceMinOrMax = Extremum.max;
         fixedPriceCheckbox.click();
-//        waitUtils.waitForElementToBeVisible(loaderDotsWrap);
-//        waitUtils.waitForElementToBeInvisible(loaderDotsWrap);
     }
 
     public void verifyFilteringByPriceFixed() {
