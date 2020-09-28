@@ -51,8 +51,6 @@ public class Header extends BasePage {
     @FindBy(xpath = ".//div[@role='dialog']")
     private WebElement loginForm;
 
-
-
     @FindBy(xpath = ".//div[@class='tab active']")
     private WebElement loginFormActiveTab;
 
@@ -77,10 +75,10 @@ public class Header extends BasePage {
     @FindBy(xpath = ".//a[@data-type='userregister']")
     private WebElement loginFormRegisterButton;
 
-    @FindBy(xpath = ".//input[@id='RegisterUserFirmForm_user_email']/following-sibling::div[@class='error-text']")
+    @FindBy(xpath = ".//input[@id='LoginForm_username']/following-sibling::div[@class='error-text']")
     private WebElement loginFormErrorMessageUnderEmail;
 
-    @FindBy(xpath = ".//input[@id='user_user_password']/following-sibling::div[@class='error-text']")
+    @FindBy(xpath = ".//input[@id='login_user_password']/following-sibling::div[@class='error-text']")
     private WebElement loginFormErrorMessageUnderPassword;
 
     @FindBy(xpath = ".//a[@id='header-user-link']")
@@ -139,7 +137,7 @@ public class Header extends BasePage {
     }
 
     public void verifyErrorMessages(String expectedMessageUnderEmail, String expectedMessageUnderPassword) {
-        waitUtils.waitForElementPresenceBy(By.xpath(".//input[@id='RegisterUserFirmForm_user_email']/following-sibling::div[@class='error-text']"));
+        waitUtils.waitForElementToBeVisible(loginFormErrorMessageUnderEmail);
         Assert.assertEquals(loginFormErrorMessageUnderEmail.getText(), expectedMessageUnderEmail);
         Assert.assertEquals(loginFormErrorMessageUnderPassword.getText(), expectedMessageUnderPassword);
     }
@@ -179,6 +177,11 @@ public class Header extends BasePage {
     public void openWishlist() {
         waitUtils.waitForElementToBeClickable(wishlistButton);
         wishlistButton.click();
+    }
+
+    public void verifyUserLogged() {
+        waitUtils.waitForElementToBeVisible(headerUserButton);
+        Assert.assertTrue(headerUserButton.isDisplayed());
     }
 
     public void verifyWishlistPrice(int expectedPrice) {
