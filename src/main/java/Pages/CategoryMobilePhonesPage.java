@@ -54,7 +54,7 @@ public class CategoryMobilePhonesPage extends BasePage{
     @FindBy(xpath = ".//div[@class='price-wrap']//span[@class='price']")
     private List<WebElement> searchResultPrices;
 
-    @FindBy(xpath = ".//div[@class='loader-dots-wrap']")
+    @FindBy(xpath = ".//div[@class='loader-dots']']")
     private WebElement loaderDotsWrap;
 
     @FindBy(xpath = ".//div[@class='wishlist-popunder active']")
@@ -92,8 +92,7 @@ public class CategoryMobilePhonesPage extends BasePage{
     }
 
     public void verifyFilteringByManufacturer() {
-        waitUtils.waitForElementsToBeVisible(modelNameTitles);
-        waitUtils.waitForElementsPresenceBy(By.xpath(".//a[@class='model-name ga_card_mdl_title']"));
+        waitUtils.waitForElementsToBeVisibleAfterRefresh(modelNameTitles);
         List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
         assertThat(modelNamesString, everyItem(containsString(manufacturerExample)));
     }
