@@ -39,7 +39,6 @@ public class LoginAndRegistrationTest extends BaseTest {
     @Test
     public void registrationWithEmptyFields() {
         Header header = new Header(driver);
-        header.GoToLoginFormRegisterTab();
         header.registerWithCredentials("","");
         header.verifyErrorMessages(expectedMessageUnderEmail, expectedMessageUnderPassword);
     }

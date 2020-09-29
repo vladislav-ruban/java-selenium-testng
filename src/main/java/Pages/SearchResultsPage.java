@@ -3,12 +3,10 @@ package Pages;
 import Dto.ProductNameDto;
 import Utils.Collectors;
 import Utils.Converters;
-import Utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -19,15 +17,16 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class SearchResultsPage {
-
-    WebDriver driver;
-    WaitUtils waitUtils;
+public class SearchResultsPage extends BasePage {
 
     public SearchResultsPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        waitUtils = new WaitUtils(driver);
+        super(driver);
+        initialWait(driver);
+    }
+
+    @Override
+    public void initialWait(WebDriver driver) {
+        waitUtils.waitForElementToBeVisible(firstSearchResult);
     }
 
     @FindBy(xpath = ".//div[@class='white-wrap']/a[@class='model-name ga_card_mdl_title']")
@@ -60,7 +59,9 @@ public class SearchResultsPage {
     private String addToWishlistButtonPath = "//a[text()='%s']/../../span[contains(@class, 'add-to-wishlist-link ')]";
 
     public void addProductToWishlist(String productName) {
-        WebElement addToWishlistButton = driver.findElement(By.xpath(String.format(addToWishlistButtonPath, productName)));
+        String addToWishlistButtonXpath = String.format(addToWishlistButtonPath, productName);
+        waitUtils.waitForElementPresenceBy(By.xpath(addToWishlistButtonXpath));
+        WebElement addToWishlistButton = driver.findElement(By.xpath(addToWishlistButtonXpath));
         ProductNameDto.setName(productName);
         waitUtils.waitForElementToBeClickable(addToWishlistButton);
         addToWishlistButton.click();
@@ -85,7 +86,6 @@ public class SearchResultsPage {
     }
 
     public void verifySortResultsLowToHigh() {
-        waitUtils.waitForElementToBeVisible(sortLowToHighButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);
@@ -94,7 +94,6 @@ public class SearchResultsPage {
     }
 
     public void verifySortResultsHighToLow() {
-        waitUtils.waitForElementToBeVisible(sortHighToLowButtonActive);
         ArrayList<Integer> integerPricesSorted = new ArrayList<Integer>();
         ArrayList<Integer> integerPrices = Collectors.collectAndParseToIntResultPrices(searchResultPrices);
         integerPricesSorted.addAll(integerPrices);

@@ -1,22 +1,24 @@
 package Pages;
 
-import Utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-public class ProductPage {
-
-    WebDriver driver;
-    WaitUtils waitUtils;
+public class ProductPage extends BasePage{
 
     public ProductPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        waitUtils = new WaitUtils(driver);
+        super(driver);
+        initialWait(driver);
     }
+
+    @Override
+    public void initialWait(WebDriver driver) {
+        waitUtils.waitForElementToBeVisible(pageTitle);
+    }
+
+    @FindBy(xpath = "//div[@class='page-title']")
+    private WebElement pageTitle;
 
     @FindBy(xpath = ".//span[contains(@class, 'add-to-wishlist-link')]")
     private WebElement addToWishlistButton;

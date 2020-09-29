@@ -2,29 +2,28 @@ package Pages;
 
 import Dto.UserCredentialsDto;
 import Utils.Converters;
-import Utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-public class Header {
-
-    WebDriver driver;
-    WaitUtils waitUtils;
+public class Header extends BasePage {
 
     Actions actions;
 
     public Header(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        waitUtils = new WaitUtils(driver);
+        super(driver);
         actions = new Actions(driver);
+        initialWait(driver);
     }
-    
+
+    @Override
+    public void initialWait(WebDriver driver) {
+        waitUtils.waitForElementToBeVisible(header);
+    }
+
     @FindBy(xpath = ".//button[@class='close announcement-acb']")
     private WebElement closeAnnouncementButton;
 
@@ -43,11 +42,16 @@ public class Header {
     @FindBy(xpath = ".//div[@class='link for-login']")
     private WebElement loginButton;
 
+    @FindBy(xpath = ".//a[@id='header-user-link']")
+    private WebElement headerUserButton;
+
     @FindBy(xpath = ".//button[@class='close announcement-acb']")
     private WebElement closeAdButton;
 
-    @FindBy(xpath = ".//div[@id='user-popup-forms']")
+    @FindBy(xpath = ".//div[@role='dialog']")
     private WebElement loginForm;
+
+
 
     @FindBy(xpath = ".//div[@class='tab active']")
     private WebElement loginFormActiveTab;
@@ -96,16 +100,16 @@ public class Header {
     }
 
     public void removeFromWishlist(String productName) {
-        WebElement removeProductFromWishlistButton =
-                driver.findElement(By.xpath(String.format(removeProductFromWishlistButtonPath, productName)));
+        String removeProductFromWishlistButtonXpath = String.format(removeProductFromWishlistButtonPath, productName);
+        waitUtils.waitForElementPresenceBy(By.xpath(removeProductFromWishlistButtonXpath));
+        WebElement removeProductFromWishlistButton = driver.findElement(By.xpath(removeProductFromWishlistButtonXpath));
         waitUtils.waitForElementToBeClickable(removeProductFromWishlistButton);
         removeProductFromWishlistButton.click();
     }
 
     public void openLoginForm() {
-        waitUtils.waitForElementToBeClickable(loginButton);
-        loginButton.click();
-        waitUtils.waitForElementPresenceBy(By.xpath(".//div[@role='dialog']"));
+            waitUtils.waitForElementToBeClickable(loginButton);
+            loginButton.click();
     }
 
     public void loginWithCredentials(String email, String password) {
@@ -120,12 +124,13 @@ public class Header {
     }
 
     public void GoToLoginFormRegisterTab() {
-        waitUtils.waitForElementToBeClickable(loginFormRegisterTab);
-        loginFormRegisterTab.click();
+        //waitUtils.waitForElementToBeClickable(loginFormRegisterTab);
+        actions.moveToElement(loginFormRegisterTab).click(loginFormRegisterTab);
     }
 
     public void registerWithCredentials(String email, String password) {
-        waitUtils.waitForElementToBeClickable(loginFormRegisterTabEmailInput);
+        waitUtils.waitForElementToBeClickable(loginFormEmailInput);
+        loginFormRegisterTab.click();
         loginFormRegisterTabEmailInput.click();
         loginFormRegisterTabEmailInput.sendKeys(email);
         loginFormRegisterTabPasswordInput.click();
@@ -134,12 +139,15 @@ public class Header {
     }
 
     public void verifyErrorMessages(String expectedMessageUnderEmail, String expectedMessageUnderPassword) {
+        waitUtils.waitForElementPresenceBy(By.xpath(".//input[@id='RegisterUserFirmForm_user_email']/following-sibling::div[@class='error-text']"));
         Assert.assertEquals(loginFormErrorMessageUnderEmail.getText(), expectedMessageUnderEmail);
         Assert.assertEquals(loginFormErrorMessageUnderPassword.getText(), expectedMessageUnderPassword);
     }
 
     public void verifyEmailNotConfirmedMessage(String expected) {
+        waitUtils.waitForElementToBeInvisible(loginFormEmailInput);
         waitUtils.waitForElementPresenceBy(By.xpath(".//div[@id='tab-not-confirmed']"));
+        waitUtils.waitForElementPresenceBy(By.xpath(".//div[@class='tab active']//div[@class='title']/span"));
         String actualMessage = emailNotConfirmedMessage.getText().toLowerCase();
         String expectedMessage = expected.toLowerCase();
         Assert.assertEquals(actualMessage, expectedMessage);

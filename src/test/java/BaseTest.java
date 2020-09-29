@@ -3,8 +3,6 @@ import Enums.Browsers;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
-import java.util.concurrent.TimeUnit;
-
 public class BaseTest {
     protected WebDriver driver;
 
@@ -13,12 +11,17 @@ public class BaseTest {
     public void setUp(@Optional("CHROME") Browsers browser) {
         driver = DriverFactory.getBrowser(browser);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     }
 
     @BeforeMethod
     public void openPage() {
         driver.get("https://price.ua/");
+    }
+
+    @AfterMethod
+    public void clearCookie() {
+        driver.manage().deleteAllCookies();
     }
 
     @AfterTest(alwaysRun = true)
