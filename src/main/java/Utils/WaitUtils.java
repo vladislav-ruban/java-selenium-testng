@@ -1,5 +1,7 @@
 package Utils;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,14 +19,15 @@ public class WaitUtils {
 
     WebDriver driver;
     private WebDriverWait wait;
-    private Wait fluentWait;
+    private Wait<WebDriver> fluentWait;
 
     public WaitUtils(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, TIMEOUT);
         fluentWait = new FluentWait(driver)
                 .withTimeout(Duration.ofSeconds(TIMEOUT))
-                .pollingEvery(Duration.ofMillis(POLLING));
+                .pollingEvery(Duration.ofMillis(POLLING))
+                .ignoring(StaleElementReferenceException.class);
     }
 
     public void waitForElementToBeClickable(WebElement element) {
@@ -55,4 +58,8 @@ public class WaitUtils {
         if(!element.getText().isEmpty()) fluentWait.until(driver -> element.getText().length() > 0);
     }
 
+    public void waitForElementPresenceBy(By locator) {
+        fluentWait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
 }
+

@@ -1,36 +1,44 @@
 import Pages.Header;
 import Pages.SearchResultsPage;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class SearchSortingTest extends BaseTest {
-    private final String searchQuery = "dell precision";
 
-    Header header;
-    SearchResultsPage searchResultsPage;
-
-    @BeforeClass
-    public void initializePage() {
-        header = new Header(getDriver());
-        searchResultsPage = new SearchResultsPage(getDriver());
+    @DataProvider(name="data-provider")
+    public Object[][] dataProviderMethod() {
+        return new Object[][] { { "acer aspire" }, { "dell" }, {"eizo"} };
     }
 
-    @Test
-    public void searchTest() {
+    @BeforeMethod
+    public void closeAnnouncement() {
+        Header header = new Header(driver);
+        header.closeAnnouncement();
+    }
+
+    @Test(dataProvider = "data-provider")
+    public void searchTest(String searchQuery) {
+        Header header = new Header(driver);
         header.searchFor(searchQuery);
+        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         searchResultsPage.verifySearchResults(searchQuery);
     }
 
-    @Test
-    public void sortingLowToHighTest() {
+    @Test(dataProvider = "data-provider")
+    public void sortingLowToHighTest(String searchQuery) {
+        Header header = new Header(driver);
         header.searchFor(searchQuery);
+        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         searchResultsPage.sortByPriceLowToHigh();
         searchResultsPage.verifySortResultsLowToHigh();
     }
 
-    @Test
-    public void sortingHighToLowTest() {
+    @Test(dataProvider = "data-provider")
+    public void sortingHighToLowTest(String searchQuery) {
+        Header header = new Header(driver);
         header.searchFor(searchQuery);
+        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         searchResultsPage.sortByPriceHighToLow();
         searchResultsPage.verifySortResultsHighToLow();
     }

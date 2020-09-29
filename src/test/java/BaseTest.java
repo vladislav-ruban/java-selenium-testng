@@ -6,19 +6,14 @@ import org.testng.annotations.*;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    private WebDriver driver;
+    protected WebDriver driver;
 
     @BeforeTest
     @Parameters({"browser"})
-    public void setUp(Browsers browser) {
+    public void setUp(@Optional("CHROME") Browsers browser) {
         driver = DriverFactory.getBrowser(browser);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    }
-
-    @AfterTest(alwaysRun = true)
-    public void tearDown() {
-        driver.quit();
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     }
 
     @BeforeMethod
@@ -26,7 +21,8 @@ public class BaseTest {
         driver.get("https://price.ua/");
     }
 
-    public WebDriver getDriver() {
-        return driver;
+    @AfterTest(alwaysRun = true)
+    public void tearDown() {
+        driver.quit();
     }
 }
