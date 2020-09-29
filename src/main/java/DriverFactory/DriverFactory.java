@@ -13,7 +13,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 public class DriverFactory {
 
     public static WebDriver getBrowser() {
-        switch(Property.getBrowser()) {
+        switch(Property.getProperty("browser")) {
             case "CHROME" -> {
                 return getChromeDriver();
             }
