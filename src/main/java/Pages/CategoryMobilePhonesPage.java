@@ -10,12 +10,9 @@ import org.testng.Assert;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-
+import static org.hamcrest.Matchers.*;
 public class CategoryMobilePhonesPage extends BasePage{
 
     public CategoryMobilePhonesPage(WebDriver driver) {
@@ -58,8 +55,7 @@ public class CategoryMobilePhonesPage extends BasePage{
     @FindBy(xpath = ".//div[@class='wishlist-popunder active']")
     private WebElement popunderWishListActive;
 
-    private String manufacturerCheckboxPath = ".//a[@data-filter-type='producer'][@data-producer-alias='%s']";
-    private String manufacturerExample;
+    private String manufacturerCheckboxPath = ".//a[@data-filter-type='producer'][contains(text(), '%s')]";
 
     private String fixedPriceCheckboxMaxPath = ".//a[contains(@data-filter-value, '\"price[max]\":\"%s\"')]";
     private String fixedPriceCheckboxMinPath = ".//a[contains(@data-filter-value, '\"price[min]\":\"%s\"')]";
@@ -84,14 +80,13 @@ public class CategoryMobilePhonesPage extends BasePage{
         waitUtils.waitForElementPresenceBy(By.xpath(manufacturerCheckboxXpath));
         WebElement manufacturerCheckBox = driver.findElement(By.xpath(manufacturerCheckboxXpath));
         waitUtils.waitForElementToBeVisible(manufacturerCheckBox);
-        manufacturerExample = manufacturerCheckBox.getText();
         manufacturerCheckBox.click();
     }
 
-    public void verifyFilteringByManufacturer() {
+    public void verifyFilteringByManufacturer(String manufacturer) {
         waitUtils.waitForElementsToBeVisibleAfterRefresh(modelNameTitles);
         List<String> modelNamesString = Collectors.collectModelNames(modelNameTitles);
-        assertThat(modelNamesString, everyItem(containsString(manufacturerExample)));
+        assertThat(modelNamesString, everyItem(containsString(manufacturer)));
     }
 
     public void verifyCategoryName(String categoryNameExpected) {

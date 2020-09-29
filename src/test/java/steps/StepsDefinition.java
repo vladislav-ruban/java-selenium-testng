@@ -84,15 +84,16 @@ public class StepsDefinition extends BaseTest {
     }
 
     @And("I filter products by manufacturer {string}")
-    public void iFilterProductsByManufacturer(String manufacturerAlias) {
+    public void iFilterProductsByManufacturer(String manufacturerName) {
         CategoryMobilePhonesPage categoryMobilePhonesPage = new CategoryMobilePhonesPage(driver);
-        categoryMobilePhonesPage.filterByManufacturer(manufacturerAlias);
+        ProductNameDto.setName(manufacturerName);
+        categoryMobilePhonesPage.filterByManufacturer(manufacturerName);
     }
 
     @Then("I should see products by chosen manufacturer")
     public void iShouldSeeProductsByChosenManufacturer() {
         CategoryMobilePhonesPage categoryMobilePhonesPage = new CategoryMobilePhonesPage(driver);
-        categoryMobilePhonesPage.verifyFilteringByManufacturer();
+        categoryMobilePhonesPage.verifyFilteringByManufacturer(ProductNameDto.getName());
     }
 
     @And("I filter products by input price from {string} to {string}")

@@ -9,11 +9,13 @@ Feature: Category selection and filtering feature
   Scenario Outline: Filter by manufacturer
     Given I navigate to main page
     When I open category mobile connection and subcategory mobile phones
-    And I filter products by manufacturer "<manufacturerAlias>"
+    And I filter products by manufacturer "<manufacturerName>"
     Then I should see products by chosen manufacturer
     Examples:
-      | manufacturerAlias |
-      | apple             |
+      | manufacturerName  |
+      | Apple             |
+      | Samsung           |
+      | Huawei            |
 
   Scenario Outline: Filter by input price
     Given I navigate to main page
