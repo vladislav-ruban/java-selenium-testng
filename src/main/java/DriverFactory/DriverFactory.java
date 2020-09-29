@@ -1,5 +1,6 @@
 package DriverFactory;
 
+import Utils.Property;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,12 +10,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
-import static Utils.Property.getProperty;
-
 public class DriverFactory {
-    private static String browser = getProperty("browser");
+
     public static WebDriver getBrowser() {
-        switch(browser) {
+        switch(Property.getBrowser()) {
             case "CHROME" -> {
                 return getChromeDriver();
             }
