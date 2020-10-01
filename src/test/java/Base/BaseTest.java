@@ -8,8 +8,6 @@ public class BaseTest {
 
     public void setUp() {
         driver = DriverFactory.getBrowser();
-//        WebDriverManager.chromedriver().setup();
-//        driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
 

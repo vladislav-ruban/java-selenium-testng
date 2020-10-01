@@ -1,8 +1,9 @@
 package steps;
 
 import Base.BaseTest;
+import Dto.CategoryNameDto;
 import Dto.ProductNameDto;
-import Pages.CategoryMobilePhonesPage;
+import Pages.AnyCategoryPage;
 import Pages.Header;
 import Pages.MainPage;
 import Pages.SearchResultsPage;
@@ -28,145 +29,151 @@ public class StepsDefinition extends BaseTest {
         tearDown();
     }
 
-    @Given("I navigate to main page")
-    public void iNavigateToMainPage() {
+    @Given("User navigates to main page")
+    public void userNavigatesToMainPage() {
         openMainPage();
+        Header header = new Header(driver);
+        header.closeAnnouncement();
     }
 
-    @When("I enter {string} to search bar")
-    public void iEnterToSearchBar(String searchQuery) {
+    @When("User enters {string} to search bar")
+    public void userEntersSearchQueryToSearchBar(String searchQuery) {
         Header header = new Header(driver);
         header.searchFor(searchQuery);
     }
 
-    @Then("I should see search result page with results title contains {string}")
-    public void iShouldSeeSearchResultPageWithResultsTitleContains(String searchQuery) {
-        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
-        searchResultsPage.verifySearchResults(searchQuery);
-    }
-
-    @When("I sort by price low to high")
-    public void iSortByPriceLowToHigh() {
+    @When("User sorts by price low to high")
+    public void userSortsByPriceLowToHigh() {
         SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         searchResultsPage.sortByPriceLowToHigh();
     }
 
-    @Then("I should see prices sorted low to high")
-    public void iShouldSeePricesSortedLowToHigh() {
-        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
-        searchResultsPage.verifySortResultsLowToHigh();
-    }
-
-    @When("I sort by price high to low")
-    public void iSortByPriceHighToLow() {
+    @When("User sorts by price high to low")
+    public void userSortsByPriceHighToLow() {
         SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         searchResultsPage.sortByPriceHighToLow();
     }
 
-    @Then("I should see prices sorted high to low")
-    public void iShouldSeePricesSortedHighToLow() {
+    @Then("Prices should be sorted low to high")
+    public void pricesShouldBeSortedLowToHigh() {
+        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
+        searchResultsPage.verifySortResultsLowToHigh();
+    }
+
+    @Then("Prices should be sorted high to low")
+    public void pricesShouldBeSortedHighToLow() {
         SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         searchResultsPage.verifySortResultsHighToLow();
     }
 
-    @When("I open category mobile connection and subcategory mobile phones")
-    public void iOpenCategoryMobileConnectionAndSubcategoryMobilePhones() {
-        MainPage mainPage = new MainPage(driver);
-        Header header = new Header(driver);
-        header.closeAnnouncement();
-        mainPage.goToCategoryMobilePhones();
+    @Then("Search result page with results title contains {string} is displayed")
+    public void searchResultPageWithResultsTitleContainsSearchQueryIsDisplayed(String searchQuery) {
+        SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
+        searchResultsPage.verifySearchResults(searchQuery);
     }
 
-    @Then("I should see category mobile phones page")
-    public void iShouldSeeCategoryMobilePhonesPage() {
-        CategoryMobilePhonesPage categoryMobilePhonesPage = new CategoryMobilePhonesPage(driver);
-        categoryMobilePhonesPage.verifyCategoryName("Мобильные телефоны, смартфоны");
-    }
-
-    @And("I filter products by manufacturer {string}")
-    public void iFilterProductsByManufacturer(String manufacturerName) {
-        CategoryMobilePhonesPage categoryMobilePhonesPage = new CategoryMobilePhonesPage(driver);
-        ProductNameDto.setName(manufacturerName);
-        categoryMobilePhonesPage.filterByManufacturer(manufacturerName);
-    }
-
-    @Then("I should see products by chosen manufacturer")
-    public void iShouldSeeProductsByChosenManufacturer() {
-        CategoryMobilePhonesPage categoryMobilePhonesPage = new CategoryMobilePhonesPage(driver);
-        categoryMobilePhonesPage.verifyFilteringByManufacturer(ProductNameDto.getName());
-    }
-
-    @And("I filter products by input price from {string} to {string}")
-    public void iFilterProductsByInputPriceFromTo(String minPrice, String maxPrice) {
-        CategoryMobilePhonesPage categoryMobilePhonesPage = new CategoryMobilePhonesPage(driver);
-        categoryMobilePhonesPage.filterByPriceInput(minPrice, maxPrice);
-    }
-
-    @Then("I should see products with price in range from {string} to {string}")
-    public void iShouldSeeProductsWithPriceInRangeFromTo(String minPrice, String maxPrice) {
-        CategoryMobilePhonesPage categoryMobilePhonesPage = new CategoryMobilePhonesPage(driver);
-        categoryMobilePhonesPage.filterByPriceInput(minPrice, maxPrice);
-    }
-
-    @And("I filter products by {string}")
-    public void iFilterProductsBy(String maxPriceFixed) {
-        CategoryMobilePhonesPage categoryMobilePhonesPage = new CategoryMobilePhonesPage(driver);
-        categoryMobilePhonesPage.filterByPriceMaxFixed(Integer.parseInt(maxPriceFixed));
-    }
-
-    @Then("I should see products with prices up to {string}")
-    public void iShouldSeeProductsWithPricesUpTo(String maxPriceFixed) {
-        CategoryMobilePhonesPage categoryMobilePhonesPage = new CategoryMobilePhonesPage(driver);
-        categoryMobilePhonesPage.verifyFilteringByPriceMaxFixed(Integer.parseInt(maxPriceFixed));
-    }
-
-    @Then("I see logged state instead of login button")
-    public void iSeeLoggedStateInsteadOfLoginButton() {
-        Header header = new Header(driver);
-        header.verifyUserLogged();
-    }
-
-    @And("I log out")
-    public void iLogOut() {
-        Header header = new Header(driver);
-        header.openUserpanel();
-        header.logOut();
-    }
-
-    @When("I login with email {string} and password {string}")
-    public void iLoginWithEmailAndPassword(String email, String password) {
-        Header header = new Header(driver);
-        header.closeAnnouncement();
-        header.openLoginForm();
-        header.loginWithCredentials(email, password);
-    }
-
-    @Then("I see message informing me email unconfirmed")
-    public void iSeeMessageInformingMeEmailUnconfirmed() {
-        Header header = new Header(driver);
-        header.verifyEmailNotConfirmedMessage("Email не подтвержден");
-    }
-
-    @Then("I see errors under inputs")
-    public void iSeeErrorsUnderInputs() {
-        final String expectedMessageUnderEmail = "Необходимо заполнить поле «Адрес электронной почты».";
-        final String expectedMessageUnderPassword = "Необходимо заполнить поле «Пароль».";
-        Header header = new Header(driver);
-        header.verifyErrorMessages(expectedMessageUnderEmail, expectedMessageUnderPassword);
-    }
-
-    @And("I add to wishlist a {string}")
-    public void iAddToWishlistA(String productName) {
+    @And("User adds to wishlist a {string}")
+    public void userAddsToWishlistAProduct(String productName) {
         SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         Header header = new Header(driver);
         header.closeAnnouncement();
         searchResultsPage.addProductToWishlist(productName);
     }
 
-    @Then("I remove product {string} from wishlist")
-    public void iRemoveProductFromWishlist(String productName) {
+    @Then("User removes remembered product from wishlist")
+    public void userRemovesRememberedProductFromWishlist() {
         Header header = new Header(driver);
         header.openWishlist();
         header.removeFromWishlist(ProductNameDto.getName());
+    }
+
+    @When("User logins with email {string} and password {string}")
+    public void userLoginsWithEmailAndPassword(String email, String password) {
+        Header header = new Header(driver);
+        header.openLoginForm();
+        header.loginWithCredentials(email, password);
+    }
+
+    @Then("Logged state instead of login button is displayed")
+    public void loggedStateInsteadOfLoginButtonIsDisplayed() {
+        Header header = new Header(driver);
+        header.verifyUserLogged();
+    }
+
+    @And("User logs out")
+    public void userLogsOut() {
+        Header header = new Header(driver);
+        header.openUserpanel();
+        header.logOut();
+    }
+
+    @Then("Message informing that email unconfirmed is displayed")
+    public void messageInformingThatEmailUnconfirmedIsDisplayed() {
+        Header header = new Header(driver);
+        header.verifyEmailNotConfirmedMessage("Email не подтвержден");
+    }
+
+    @Then("Errors under inputs are displayed")
+    public void errorsUnderInputsAreDisplayed() {
+        final String expectedMessageUnderEmail = "Необходимо заполнить поле «Адрес электронной почты».";
+        final String expectedMessageUnderPassword = "Необходимо заполнить поле «Пароль».";
+        Header header = new Header(driver);
+        header.verifyErrorMessages(expectedMessageUnderEmail, expectedMessageUnderPassword);
+    }
+
+    @When("User hovers on category {string}")
+    public void userHoversOnCategory(String categoryToHover) {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.hoverOnCategory(categoryToHover);
+    }
+
+    @And("User goes to category {string}")
+    public void userGoesToCategory(String categoryToClick) {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.goToCategory(categoryToClick);
+        CategoryNameDto.setCategory(categoryToClick);
+    }
+
+    @Then("Remembered category is displayed")
+    public void rememberedCategoryIsDisplayed() {
+        AnyCategoryPage anyCategoryPage = new AnyCategoryPage(driver);
+        anyCategoryPage.verifyCategoryName(CategoryNameDto.getCategory());
+    }
+
+    @And("User filters products by manufacturer {string}")
+    public void userFiltersProductsByManufacturer(String manufacturerName) {
+        AnyCategoryPage anyCategoryPage = new AnyCategoryPage(driver);
+        anyCategoryPage.filterByManufacturer(manufacturerName);
+        ProductNameDto.setName(manufacturerName);
+    }
+
+    @Then("Products are filtered by remembered manufacturer")
+    public void productsAreFilteredByRememberedManufacturer() {
+        AnyCategoryPage anyCategoryPage = new AnyCategoryPage(driver);
+        anyCategoryPage.verifyFilteringByManufacturer(ProductNameDto.getName());
+    }
+
+    @And("User filters products by input price from {string} to {string}")
+    public void userFiltersProductsByInputPriceFromMinPriceToMaxPrice(String minPrice, String maxPrice) {
+        AnyCategoryPage anyCategoryPage = new AnyCategoryPage(driver);
+        anyCategoryPage.filterByPriceInput(minPrice, maxPrice);
+    }
+
+    @Then("Products with prices in range from {string} to {string} displayed")
+    public void productsWithPricesInRangeFromMinPriceToMaxPriceDisplayed(String minPrice, String maxPrice) {
+        AnyCategoryPage anyCategoryPage = new AnyCategoryPage(driver);
+        anyCategoryPage.verifyFilteringByPriceInput(minPrice, maxPrice);
+    }
+
+    @And("User filters products by fixed price {string}")
+    public void userFiltersProductsByFixedPrice(String fixedPriceMax) {
+        AnyCategoryPage anyCategoryPage = new AnyCategoryPage(driver);
+        anyCategoryPage.filterByPriceMaxFixed(Integer.parseInt(fixedPriceMax));
+    }
+
+    @Then("Products with prices up to {string} displayed")
+    public void productsWithPricesUpToDisplayed(String fixedPriceMax) {
+        AnyCategoryPage anyCategoryPage = new AnyCategoryPage(driver);
+        anyCategoryPage.verifyFilteringByPriceMaxFixed(Integer.parseInt(fixedPriceMax));
     }
 }

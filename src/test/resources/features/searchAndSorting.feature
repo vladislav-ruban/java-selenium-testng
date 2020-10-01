@@ -2,9 +2,9 @@ Feature: search and sorting results feature
   This feature deals with the search and sorting functionality of the application
 
   Scenario Outline: Search different queries
-    Given I navigate to main page
-    When I enter "<searchQuery>" to search bar
-    Then I should see search result page with results title contains "<searchQuery>"
+    Given User navigates to main page
+    When User enters '<searchQuery>' to search bar
+    Then Search result page with results title contains '<searchQuery>' is displayed
     Examples:
       | searchQuery |
       | dell        |
@@ -12,22 +12,21 @@ Feature: search and sorting results feature
       | acer aspire |
 
   Scenario Outline: Sort search results low to high
-    Given I navigate to main page
-    When I enter "<searchQuery>" to search bar
-    Then I should see search result page with results title contains "<searchQuery>"
-    When I sort by price low to high
-    Then I should see prices sorted low to high
+    Given User navigates to main page
+    When User enters "<searchQuery>" to search bar
+    Then Search result page with results title contains "<searchQuery>" is displayed
+    When User sorts by price low to high
+    Then Prices should be sorted low to high
     Examples:
       | searchQuery   |
       | acer aspire   |
 
   Scenario Outline: Sort search results high to low
-    Given I navigate to main page
-    When I enter "<searchQuery>" to search bar
-    Then I should see search result page with results title contains "<searchQuery>"
-    When I sort by price high to low
-    Then I should see prices sorted high to low
+    Given User navigates to main page
+    When User enters "<searchQuery>" to search bar
+    Then Search result page with results title contains "<searchQuery>" is displayed
+    When User sorts by price high to low
+    Then Prices should be sorted high to low
     Examples:
       | searchQuery   |
       | acer aspire   |
-

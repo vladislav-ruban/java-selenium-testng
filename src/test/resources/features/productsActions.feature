@@ -2,10 +2,10 @@ Feature: Products actions feature
   This feature deals with the actions can be done to products
 
   Scenario Outline: Add product to wishlist from search results
-    Given I navigate to main page
-    When I enter "<productName>" to search bar
-    And I add to wishlist a "<productName>"
-    Then I remove product "<productName>" from wishlist
+    Given User navigates to main page
+    When User enters "<product>" to search bar
+    And User adds to wishlist a '<product>'
+    Then User removes remembered product from wishlist
     Examples:
-      | productName               |
+      | product                   |
       | Apple iPhone 7 Plus 128Gb |

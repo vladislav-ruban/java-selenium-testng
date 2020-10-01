@@ -64,6 +64,10 @@ public class WaitUtils {
         fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
     }
 
+    public void waitForElementToBeClickable(By locator) {
+        fluentWait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
     public void waitForElementToBeVisibleAfterRefresh(WebElement element) {
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(element)));
     }
