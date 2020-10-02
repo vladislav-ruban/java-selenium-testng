@@ -13,26 +13,33 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-public class CategoryMobilePhonesPage extends BasePage{
 
-    public CategoryMobilePhonesPage(WebDriver driver) {
+public class AnyCategoryPage extends BasePage {
+
+    public AnyCategoryPage(WebDriver driver) {
         super(driver);
         initialWait(driver);
     }
 
     @Override
     public void initialWait(WebDriver driver) {
-        waitUtils.waitForElementToBeVisible(caseTypeMonoblock);
+        waitUtils.waitForElementToBeVisible(categoryName);
     }
-
-    @FindBy(xpath = "//li/a[contains(text(), 'моноблок')]")
-    private WebElement caseTypeMonoblock;
 
     @FindBy(xpath = ".//span[@class='breadcrumbs-last']")
     private WebElement categoryName;
 
     @FindBy(xpath = ".//a[@class='model-name ga_card_mdl_title']")
     private List<WebElement> modelNameTitles;
+
+    @FindBy(xpath = ".//div[@class='price-wrap']//span[@class='price']")
+    private List<WebElement> searchResultPrices;
+
+    @FindBy(xpath = ".//div[@class='wishlist-popunder active']")
+    private WebElement popunderWishListActive;
+
+    @FindBy(xpath = ".//div[@class='applied-filters']")
+    private WebElement appliedFiltersTitle;
 
     @FindBy(xpath = ".//input[@id='price_min_']")
     private WebElement minPriceInput;
@@ -43,36 +50,16 @@ public class CategoryMobilePhonesPage extends BasePage{
     @FindBy(xpath = ".//a[@class='btn btn-purple ga_cat_filter btn-filters-submit btn-ok']")
     private WebElement inputPriceOKButton;
 
-    @FindBy(xpath = ".//div[@class='applied-filters']")
-    private WebElement appliedFiltersTitle;
-
-    @FindBy(xpath = ".//div[@class='price-wrap']//span[@class='price']")
-    private List<WebElement> searchResultPrices;
-
-    @FindBy(xpath = ".//div[@class='loader-dots']']")
-    private WebElement loaderDotsWrap;
-
-    @FindBy(xpath = ".//div[@class='wishlist-popunder active']")
-    private WebElement popunderWishListActive;
-
     private String manufacturerCheckboxPath = ".//a[@data-filter-type='producer'][contains(text(), '%s')]";
+
+    private String addToWishlistButtonPath = "//a[text()='%s']/../../span[contains(@class, 'add-to-wishlist-link ')]";
 
     private String fixedPriceCheckboxMaxPath = ".//a[contains(@data-filter-value, '\"price[max]\":\"%s\"')]";
     private String fixedPriceCheckboxMinPath = ".//a[contains(@data-filter-value, '\"price[min]\":\"%s\"')]";
-    private int fixedPriceExample;
 
-    private String addToWishlistButtonPath = "//a[text()='%s']/../../span[contains(@class, 'add-to-wishlist-link ')]";
-    private String productTitlePath = ".//a[text()='%s']";
-
-    public void addProductToWishlist(String productName) {
+    public void verifyCategoryName(String categoryNameExpected) {
         waitUtils.waitForElementToBeVisible(categoryName);
-        String addToWishlistButtonXpath = String.format(addToWishlistButtonPath, productName);
-        waitUtils.waitForElementPresenceBy(By.xpath(addToWishlistButtonXpath));
-        WebElement addToWishlistButton = driver.findElement(By.xpath(addToWishlistButtonXpath));
-        ProductNameDto.setName(productName);
-        waitUtils.waitForElementToBeClickable(addToWishlistButton);
-        addToWishlistButton.click();
-        waitUtils.waitForElementToBeVisible(popunderWishListActive);
+        Assert.assertEquals(categoryName.getText(), categoryNameExpected);
     }
 
     public void filterByManufacturer(String manufacturerName) {
@@ -89,9 +76,14 @@ public class CategoryMobilePhonesPage extends BasePage{
         assertThat(modelNamesString, everyItem(containsString(manufacturer)));
     }
 
-    public void verifyCategoryName(String categoryNameExpected) {
-        waitUtils.waitForElementToBeVisible(categoryName);
-        Assert.assertEquals(categoryName.getText(), categoryNameExpected);
+    public void addProductToWishlist(String productName) {
+        String addToWishlistButtonXpath = String.format(addToWishlistButtonPath, productName);
+        waitUtils.waitForElementPresenceBy(By.xpath(addToWishlistButtonXpath));
+        WebElement addToWishlistButton = driver.findElement(By.xpath(addToWishlistButtonXpath));
+        ProductNameDto.setName(productName);
+        waitUtils.waitForElementToBeClickable(addToWishlistButton);
+        addToWishlistButton.click();
+        waitUtils.waitForElementToBeVisible(popunderWishListActive);
     }
 
     public void filterByPriceMinFixed(int minValue) {
@@ -99,7 +91,6 @@ public class CategoryMobilePhonesPage extends BasePage{
         waitUtils.waitForElementPresenceBy(By.xpath(fixedPriceCheckboxXpath));
         WebElement fixedPriceCheckbox = driver.findElement(By.xpath(fixedPriceCheckboxXpath));
         waitUtils.waitForElementToBeVisible(fixedPriceCheckbox);
-        fixedPriceExample = minValue;
         fixedPriceCheckbox.click();
     }
 
@@ -109,7 +100,6 @@ public class CategoryMobilePhonesPage extends BasePage{
         waitUtils.waitForElementPresenceBy(By.xpath(fixedPriceCheckboxXpath));
         WebElement fixedPriceCheckbox = driver.findElement(By.xpath(fixedPriceCheckboxXpath));
         waitUtils.waitForElementToBeVisible(fixedPriceCheckbox);
-        fixedPriceExample = maxValue;
         fixedPriceCheckbox.click();
     }
 
@@ -119,10 +109,10 @@ public class CategoryMobilePhonesPage extends BasePage{
         assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(lessThanOrEqualTo(maxPriceFixed)));
     }
 
-    public void verifyFilteringByPriceMinFixed() {
+    public void verifyFilteringByPriceMinFixed(int minPriceFixedFiltered) {
         waitUtils.waitForElementToBeVisible(appliedFiltersTitle);
         waitUtils.waitForElementsToBeVisible(searchResultPrices);
-        assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(greaterThanOrEqualTo(fixedPriceExample)));
+        assertThat(Collectors.collectAndParseToIntResultPrices(searchResultPrices), everyItem(greaterThanOrEqualTo(minPriceFixedFiltered)));
     }
 
     public void filterByPriceInput(String minPrice, String maxPrice) {
@@ -144,4 +134,5 @@ public class CategoryMobilePhonesPage extends BasePage{
         assertThat(prices, everyItem(greaterThanOrEqualTo(minPriceInt)));
         assertThat(prices, everyItem(lessThanOrEqualTo(maxPriceInt)));
     }
+
 }
