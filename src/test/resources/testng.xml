@@ -1,28 +1,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="SmokeChrome" verbose="1" >
-    <test name="SearchAndSortingChrome">
-        <parameter name="browser" value="CHROME"/>
+    <test name="AllTests">
         <classes>
-            <class name="SearchSortingTest"/>
-        </classes>
-    </test>
-    <test name="GoodsActionsFunctionalityChrome">
-        <parameter name="browser" value="CHROME"/>
-        <classes>
-            <class name="ProductActionsFunctionalityTest"/>
-        </classes>
-    </test>
-    <test name="CategoryChrome">
-        <parameter name="browser" value="CHROME"/>
-        <classes>
-            <class name="CategorySelectionAndFilteringTest"/>
-        </classes>
-    </test>
-    <test name="LoginAndRegistrationChrome">
-        <parameter name="browser" value="CHROME"/>
-        <classes>
-            <class name="LoginAndRegistrationTest"/>
+            <class name="RunBddTests"/>
         </classes>
     </test>
 </suite>
