@@ -84,8 +84,7 @@ public class StepsDefinition extends BaseTest {
     @And("User adds to wishlist a {string}")
     public void userAddsToWishlistAProduct(String productName) {
         SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
-        Header header = new Header(driver);
-        header.closeAnnouncement();
+        searchResultsPage.isAppliedFiltersShown();
         searchResultsPage.addProductToWishlist(productName);
     }
 
