@@ -56,7 +56,14 @@ public class SearchResultsPage extends BasePage {
     @FindBy(xpath = ".//div[@class='wishlist-popunder active']")
     private WebElement popunderWishListActive;
 
+    @FindBy(xpath = ".//div[@class='applied-filters']")
+    private WebElement appliedFilters;
+
     private String addToWishlistButtonPath = "//a[text()='%s']/../../span[contains(@class, 'add-to-wishlist-link ')]";
+
+    public void isAppliedFiltersShown() {
+        waitUtils.waitForElementToBeVisible(appliedFilters);
+    }
 
     public void addProductToWishlist(String productName) {
         String addToWishlistButtonXpath = String.format(addToWishlistButtonPath, productName);
