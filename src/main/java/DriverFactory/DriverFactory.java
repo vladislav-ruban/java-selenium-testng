@@ -12,7 +12,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class DriverFactory {
 
-    public static WebDriver getBrowser() {
+    public WebDriver getBrowser() {
         switch(Property.getProperty("browser")) {
             case "CHROME" -> {
                 return getChromeDriver();
@@ -27,7 +27,7 @@ public class DriverFactory {
         }
     }
 
-    private static WebDriver getChromeDriver() {
+    private WebDriver getChromeDriver() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
@@ -35,7 +35,7 @@ public class DriverFactory {
         return new ChromeDriver(options);
     }
 
-    private static WebDriver getFirefoxDriver() {
+    private WebDriver getFirefoxDriver() {
         WebDriverManager.firefoxdriver().setup();
         FirefoxOptions options = new FirefoxOptions();
         options.setProfile(new FirefoxProfile());
@@ -43,7 +43,7 @@ public class DriverFactory {
         return new FirefoxDriver();
     }
 
-    private static WebDriver getEdgeDriver() {
+    private WebDriver getEdgeDriver() {
         WebDriverManager.edgedriver().setup();
         return new EdgeDriver();
     }
