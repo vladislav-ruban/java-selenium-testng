@@ -95,6 +95,7 @@ public class Header extends BasePage {
     public void closeAnnouncement() {
         waitUtils.waitForElementToBeClickable(closeAnnouncementButton);
         actions.moveToElement(closeAnnouncementButton).click(closeAnnouncementButton).perform();
+
     }
 
     public void removeFromWishlist(String productName) {

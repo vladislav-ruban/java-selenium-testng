@@ -1,25 +1,27 @@
 package Base;
 
 import DriverFactory.DriverFactory;
-import org.openqa.selenium.WebDriver;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 
-public class BaseTest {
-    protected WebDriver driver;
+public class BaseTest extends BaseUtil {
 
+    BaseUtil base;
+
+    public BaseTest(BaseUtil base) {
+        this.base = base;
+    }
+
+    @Before
     public void setUp() {
-        driver = DriverFactory.getBrowser();
-        driver.manage().window().maximize();
+        DriverFactory driverFactory = new DriverFactory();
+        base.setDriver(driverFactory.getBrowser());
+        base.getDriver().manage().window().maximize();
+        base.getDriver().manage().deleteAllCookies();
     }
 
-    public void openMainPage() {
-        driver.get("https://price.ua/");
-    }
-
-    public void clearCookie() {
-        driver.manage().deleteAllCookies();
-    }
-
-    public void tearDown() {
-        driver.quit();
+    @After
+    public void tearDown(){
+        base.getDriver().close();
     }
 }
