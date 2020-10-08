@@ -1,13 +1,14 @@
-import Base.BaseUtil;
+package Base;
+
 import DriverFactory.DriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 
-public class Hook extends BaseUtil {
+public class BaseTest extends BaseUtil {
 
     BaseUtil base;
 
-    public Hook(BaseUtil base) {
+    public BaseTest(BaseUtil base) {
         this.base = base;
     }
 
